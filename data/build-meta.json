@@ -1,6 +1,6 @@
 {
   "version": 23,
-  "builtAt": 1789135400540,
+  "builtAt": 1789135560753,
   "players": 1769,
   "links": 64980,
   "gamesRecorded": 128948,
@@ -8,5 +8,5 @@
     "NRL",
     "State of Origin"
   ],
-  "compressedBytes": 1073643
+  "compressedBytes": 1073641
 }
