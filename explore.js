@@ -32,15 +32,15 @@ function renderRoster(){
  $$('[data-roster-player]').forEach(b=>b.onclick=()=>openPlayer(b.dataset.rosterPlayer));
 }
 function renderCoverage(){
- const appTotal=[...state.appearances.values()].reduce((a,b)=>a+b,0),histTotal=[...state.historyByPair.values()].reduce((n,m)=>n+m.size,0);
- $('#cPlayers').textContent=fmt(state.players.size);$('#cEdges').textContent=fmt(state.edges.size);$('#cApps').textContent=fmt(appTotal);$('#cHist').textContent=fmt(histTotal);
+ const loadedPlayers=state.appearances.size,appTotal=[...state.appearances.values()].reduce((a,b)=>a+b,0),histTotal=[...state.historyByPair.values()].reduce((n,m)=>n+m.size,0);
+ $('#cPlayers').textContent=fmt(loadedPlayers);$('#cEdges').textContent=fmt(state.edges.size);$('#cApps').textContent=fmt(appTotal);$('#cHist').textContent=fmt(histTotal);
  $('#coverageYears').innerHTML=YEARS.map(y=>`<div class="yearcell ${y===2026?'current':''}">${y}${y===2026?'<br><small>current</small>':''}</div>`).join('');
 }
 $('#refreshData').onclick=async()=>{await clearCache();toast('Source cache cleared · reloading');setTimeout(()=>location.reload(),500)};
 
 function initUI(){
- const appTotal=[...state.appearances.values()].reduce((a,b)=>a+b,0);
- $('#sPlayers').textContent=fmt(state.players.size);$('#sEdges').textContent=fmt(state.edges.size);$('#sApps').textContent=fmt(appTotal);
+ const loadedPlayers=state.appearances.size,appTotal=[...state.appearances.values()].reduce((a,b)=>a+b,0);
+ $('#sPlayers').textContent=fmt(loadedPlayers);$('#sEdges').textContent=fmt(state.edges.size);$('#sApps').textContent=fmt(appTotal);
  $('#dataStatus').textContent='Exact NRL network ready';$('#dataStatus').classList.add('ready');
  renderHomePeople();fillYears();renderRoster();renderCoverage();
  setupAutocomplete($('#homeSearch'),$('#homeSuggestions'),id=>openPlayer(id));
