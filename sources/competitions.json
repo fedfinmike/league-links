@@ -1,14 +1,14 @@
 [
-  {"name":"NRL","status":"live","years":"2000-2026","source":"uselessnrlstats public match data"},
-  {"name":"State of Origin","status":"live","years":"2000-2026","source":"uselessnrlstats cleaned Origin match data"},
-  {"name":"International teams","status":"team_browsing","years":"2000-2026","source":"Rugby League Project team player summaries; exact teammate links require match-confirmed appearances"},
-  {"name":"NSW Cup","status":"building","target":"2000-2026 where source coverage supports it","official":"https://www.nswrl.com.au/draw/?competition=113"},
-  {"name":"Queensland Cup","status":"building","target":"2000-2026 where source coverage supports it","official":"https://www.qrl.com.au/draw/?competition=114"},
-  {"name":"Jersey Flegg / NYC","status":"building","target":"2008-2026","official":"https://www.nswrl.com.au/draw/?competition=159"},
-  {"name":"SG Ball Cup","status":"building","target":"U17+ pathway years","official":"https://www.nswrl.com.au/draw/?competition=144"},
-  {"name":"Harold Matthews Cup","status":"building","target":"U17+ era","official":"https://www.nswrl.com.au/draw/?competition=143"},
-  {"name":"Mal Meninga Cup","status":"building","target":"U17+ pathway years","official":"https://www.qrl.com.au/draw/?competition=155"},
-  {"name":"Cyril Connell Cup","status":"building","target":"U17 era from 2024","official":"https://www.qrl.com.au/draw/?competition=154"},
-  {"name":"Queensland Colts / U20 / U21","status":"building","target":"historical pathway years"},
-  {"name":"Other representative teams","status":"building","target":"senior and U17+ representative football"}
+  {"name":"NRL","status":"match_history_live","years":"2000-2026","source":"uselessnrlstats public match data"},
+  {"name":"State of Origin","status":"match_history_live","years":"2000-2026","source":"uselessnrlstats cleaned Origin match data"},
+  {"name":"International teams","status":"teams_mapped","target":"2000-2026","teams_mapped":13,"note":"National teams are selectable now; exact teammate links require match-confirmed international appearances."},
+  {"name":"NSW Cup","status":"teams_mapped","target":"2000-2026 where reliable records exist","teams_mapped_2026":14,"official":"https://www.nswrl.com.au/draw/?competition=113"},
+  {"name":"Queensland Cup","status":"teams_mapped","target":"2000-2026 where reliable records exist","teams_mapped_2026":15,"official":"https://www.qrl.com.au/draw/?competition=114"},
+  {"name":"Jersey Flegg / NYC","status":"teams_mapped","target":"2000-2026 where the U17+ competition structure and source coverage support it","teams_mapped_2026":14,"official":"https://www.nswrl.com.au/draw/?competition=159"},
+  {"name":"SG Ball Cup","status":"teams_mapped","target":"U17+ pathway seasons from 2000 onward where reliable records exist","teams_mapped_2026":17,"official":"https://www.nswrl.com.au/draw/?competition=144"},
+  {"name":"Harold Matthews Cup","status":"teams_mapped","target":"U17 seasons from 2000 onward where reliable records exist","teams_mapped_2026":17,"official":"https://www.nswrl.com.au/draw/?competition=143"},
+  {"name":"Mal Meninga Cup","status":"teams_mapped","target":"U17+ pathway seasons from 2000 onward where reliable records exist","teams_mapped_2026":14,"official":"https://www.qrl.com.au/draw/?competition=155"},
+  {"name":"Cyril Connell Cup","status":"teams_mapped","target":"U17 seasons, including the current U17 era","teams_mapped_2026":15,"official":"https://www.qrl.com.au/draw/?competition=154"},
+  {"name":"Queensland Colts / U20 / U21","status":"historical_mapping","target":"U17+ historical pathway seasons from 2000 onward"},
+  {"name":"Other representative teams","status":"historical_mapping","target":"senior and U17+ representative football from 2000 onward"}
 ]
