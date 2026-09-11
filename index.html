@@ -3,15 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07111b">
-<meta name="description" content="League Links — explore rugby league teammates, shared seasons and player connections.">
+<meta name="theme-color" content="#06161d">
+<meta name="description" content="League Links — explore rugby league teammates, shared seasons, teams and player connections.">
 <meta property="og:title" content="League Links">
-<meta property="og:description" content="Every career is a network. Explore rugby league player connections across the competitions currently in League Links.">
+<meta property="og:description" content="Every career is a network. Explore rugby league player connections from 2000 onward, with international teams being added.">
 <meta property="og:type" content="website">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>League Links · Rugby league player connections</title>
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="theme-v24.css">
 </head>
 <body>
 <div class="loader" id="loader">
@@ -35,8 +36,8 @@
   <button class="navbtn" data-route="competitions"><span class="navicon">▦</span>Competitions</button>
  </nav>
  <div class="spacer"></div>
- <div class="coverage"><span class="dot"></span><div><strong>NRL + State of Origin</strong><small>More competitions are being added</small></div></div>
- <div class="sidefoot"><span>v0.23</span><span>Free to use</span></div>
+ <div class="coverage"><span class="dot"></span><div><strong>NRL + Origin from 2000</strong><small>International teams can be browsed too</small></div></div>
+ <div class="sidefoot"><span>v0.24</span><span>Free to use</span></div>
 </aside>
 <div class="workspace">
 <header class="topbar">
@@ -47,11 +48,11 @@
 <section class="view" id="view-home">
  <div class="hero">
   <div class="herocopy">
-   <div class="pill"><i></i> NRL + State of Origin</div>
+   <div class="pill"><i></i> NRL 2000–2026 · Origin · international teams</div>
    <h1>Every career is a network.</h1>
-   <p>Search a player, see who they played with, compare shared seasons, or find the shortest link between any two players.</p>
-   <div class="heroactions"><button class="primary" id="startExplore">Find a player</button><button class="ghost" data-route="connect">Connect two players</button></div>
-   <div class="proof"><span><b>✓</b>Games together</span><span><b>✓</b>Season history</span><span><b>✓</b>Clickable player journeys</span></div>
+   <p>Search a player, see who they played with, compare shared seasons, browse teams, or find the shortest link between any two players.</p>
+   <div class="heroactions"><button class="primary" id="startExplore">Find a player</button><button class="ghost" data-route="teams">Browse teams</button><button class="ghost" data-route="connect">Connect two players</button></div>
+   <div class="proof"><span><b>✓</b>Games together</span><span><b>✓</b>Season history</span><span><b>✓</b>International team browsing</span></div>
   </div>
   <div class="heropanel">
    <div class="panelhead"><span>Find a player</span><span>Type a name</span></div>
@@ -63,13 +64,13 @@
   <div class="stat"><strong id="sPlayers">—</strong><span>Players</span></div>
   <div class="stat"><strong id="sEdges">—</strong><span>Player links</span></div>
   <div class="stat"><strong id="sApps">—</strong><span>Player appearances</span></div>
-  <div class="stat"><strong id="sComps">—</strong><span>Competitions live</span></div>
+  <div class="stat"><strong id="sComps">—</strong><span>Competition areas</span></div>
  </div>
- <aside class="ad-slot ad-wide" aria-label="Advertisement"><span>Advertisement</span><div><strong>Partner space</strong><small>League Links will stay free, supported by a small number of simple ads.</small></div></aside>
+ <aside class="ad-slot ad-wide" aria-label="Advertisement"><span>Advertisement</span><div><strong>Partner space</strong><small>League Links stays free, supported by a small number of simple ads.</small></div></aside>
  <div class="section"><div class="sectionhead"><div><p class="eyebrow">START HERE</p><h2>Three easy ways to explore</h2></div></div><div class="deck">
   <button class="feature card" data-route="players"><i>01</i><strong>Pick a player</strong><p>See their teammates ranked by games together, then click any name to keep exploring.</p></button>
   <button class="feature card" data-route="connect"><i>02</i><strong>Find a link</strong><p>See the shortest player-to-player path between any two people in League Links.</p></button>
-  <button class="feature card" data-route="teams"><i>03</i><strong>Browse a team</strong><p>Choose a competition, season and team, then open any player from that squad of match appearances.</p></button>
+  <button class="feature card" data-route="teams"><i>03</i><strong>Browse a team</strong><p>Choose NRL, Origin or an international side such as Tonga, Samoa, Fiji, New Zealand or the Cook Islands.</p></button>
  </div></div>
  <div class="section" id="recentSection"><div class="sectionhead"><div><p class="eyebrow">RECENT</p><h2>Players you viewed</h2></div><button class="ghost" id="clearRecent">Clear</button></div><div class="people" id="recentPeople"></div></div>
  <div class="section" id="favSection"><div class="sectionhead"><div><p class="eyebrow">FAVOURITES</p><h2>Saved players</h2></div></div><div class="people" id="favPeople"></div></div>
@@ -84,15 +85,15 @@
  <div class="card result" id="connectionResult"><div class="empty"><strong>Choose two players.</strong>We’ll show how they connect.</div></div>
 </section>
 <section class="view" id="view-teams">
- <div class="sectionhead"><div><p class="eyebrow">TEAMS</p><h1>Browse a season.</h1><p>Choose a competition, season and team to see the players recorded in matches.</p></div></div>
+ <div class="sectionhead"><div><p class="eyebrow">TEAMS</p><h1>Browse a team.</h1><p>Choose NRL, State of Origin or International. International teams include Tonga, Samoa, Fiji, New Zealand, Cook Islands, Papua New Guinea and more.</p></div></div>
  <div class="teamform"><div class="field"><label>Competition</label><select id="teamCompetition"></select></div><div class="field"><label>Season</label><select id="teamYear"></select></div><div class="field"><label>Team</label><select id="teamName"></select></div><button class="primary" id="teamGo">Show players</button></div>
  <div id="teamMeta"></div><div class="roster" id="teamRoster"></div>
 </section>
 <section class="view" id="view-competitions">
- <div class="sectionhead"><div><p class="eyebrow">COMPETITIONS</p><h1>More of the game, in one place.</h1><p>NRL and State of Origin are available now. State cups, youth competitions and junior representative football are being added next.</p></div></div>
+ <div class="sectionhead"><div><p class="eyebrow">COMPETITIONS</p><h1>More of the game, in one place.</h1><p>NRL and State of Origin now run back to 2000. International teams can be browsed now, while their individual match histories and the state and junior competitions continue to be filled in.</p></div></div>
  <div class="competition-grid" id="competitionGrid"></div>
- <div class="section card simple-note"><h3>How a player link is counted</h3><p>Two players are linked only when both are recorded for the same team in the same match. Being in the same squad or on the same club list does not count as a game together.</p></div>
- <div class="section card simple-note"><h3>What we are adding next</h3><p>NSW Cup and Queensland Cup come first, followed by NYC and Jersey Flegg, SG Ball, Harold Matthews where it is under-17 or older, Mal Meninga, Cyril Connell from its under-17 era, Queensland Colts and other representative teams.</p></div>
+ <div class="section card simple-note"><h3>How a player link is counted</h3><p>Two players are linked only when both are recorded for the same team in the same match. Being on the same squad list does not count as a game together.</p></div>
+ <div class="section card simple-note"><h3>What we are adding next</h3><p>International match histories, NSW Cup and Queensland Cup come first, followed by NYC and Jersey Flegg, SG Ball, Harold Matthews where it is under-17 or older, Mal Meninga, Cyril Connell from its under-17 era, Queensland Colts and other representative teams.</p></div>
 </section>
 </main>
 <footer class="sitefoot"><span>League Links is free to use.</span><span>Supported by a small number of simple advertisements.</span></footer>
