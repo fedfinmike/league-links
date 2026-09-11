@@ -6,6 +6,9 @@ on:
   push:
     paths:
       - 'scripts/build_data.py'
+      - 'sources/international_teams.json'
+      - 'sources/players.csv'
+      - 'sources/confirmed_appearances.csv'
       - '.github/workflows/build-data.yml'
 permissions:
   contents: write
