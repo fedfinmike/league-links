@@ -1,10 +1,10 @@
 {
   "name":"League Links",
   "short_name":"League Links",
-  "description":"Explore rugby league teammates, shared seasons and player connections.",
+  "description":"Explore rugby league teammates, shared seasons, teams and player connections.",
   "start_url":"./",
   "display":"standalone",
-  "background_color":"#07111b",
-  "theme_color":"#07111b",
+  "background_color":"#06161d",
+  "theme_color":"#06161d",
   "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }

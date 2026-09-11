@@ -1,12 +1,15 @@
 {
-  "version": 23,
-  "builtAt": 1789135560753,
-  "players": 1769,
-  "links": 64980,
-  "gamesRecorded": 128948,
+  "version": 24,
+  "builtAt": 1789136709746,
+  "historyStart": 2000,
+  "historyEnd": 2026,
+  "players": 2409,
+  "links": 92877,
+  "playerAppearances": 181766,
   "competitions": [
     "NRL",
     "State of Origin"
   ],
-  "compressedBytes": 1073641
+  "internationalTeams": 13,
+  "compressedBytes": 1490541
 }
