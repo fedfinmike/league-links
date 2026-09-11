@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -31,5 +33,7 @@ jobs:
             echo "No data changes"
           else
             git commit -m "Refresh League Links data"
-            git push
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi
