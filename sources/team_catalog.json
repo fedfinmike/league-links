@@ -1,0 +1,63 @@
+{
+  "updated": "2026-09-12",
+  "note": "Team directory for League Links. A team appearing here means it can be browsed in the site. It does not by itself create player-to-player links; links still require confirmed same-match appearances.",
+  "competitions": [
+    {
+      "id": "NRL",
+      "season": 2026,
+      "teams": ["Brisbane Broncos","Canberra Raiders","Canterbury-Bankstown Bulldogs","Cronulla-Sutherland Sharks","Dolphins","Gold Coast Titans","Manly Warringah Sea Eagles","Melbourne Storm","Newcastle Knights","New Zealand Warriors","North Queensland Cowboys","Parramatta Eels","Penrith Panthers","South Sydney Rabbitohs","St George Illawarra Dragons","Sydney Roosters","Wests Tigers"]
+    },
+    {
+      "id": "State of Origin",
+      "season": 2026,
+      "teams": ["New South Wales","Queensland"]
+    },
+    {
+      "id": "International",
+      "season": 2026,
+      "teams": ["Australia","Cook Islands","England","Fiji","France","Ireland","Lebanon","New Zealand","Papua New Guinea","Samoa","Scotland","Tonga","Wales"]
+    },
+    {
+      "id": "NSW Cup",
+      "season": 2026,
+      "source": "NSWRL 2026 draw",
+      "teams": ["Canberra Raiders","Canterbury-Bankstown Bulldogs","Manly Warringah Sea Eagles","Melbourne Storm","Newcastle Knights","New Zealand Warriors","Newtown Jets","North Sydney Bears","Parramatta Eels","Penrith Panthers","South Sydney Rabbitohs","St George Illawarra Dragons","Sydney Roosters","Western Suburbs Magpies"]
+    },
+    {
+      "id": "Queensland Cup",
+      "season": 2026,
+      "source": "QRL 2026 Hostplus Cup draw",
+      "teams": ["Brisbane Tigers","Burleigh Bears","Central Queensland Capras","Ipswich Jets","Mackay Cutters","Northern Pride","Norths Devils","Papua New Guinea Hunters","Redcliffe Dolphins","Souths Logan Magpies","Sunshine Coast Falcons","Townsville Blackhawks","Tweed Seagulls","Western Clydesdales","Wynnum Manly Seagulls"]
+    },
+    {
+      "id": "NYC / Jersey Flegg",
+      "season": 2026,
+      "source": "NSWRL 2026 Jersey Flegg draw",
+      "teams": ["Canberra Raiders","Canterbury-Bankstown Bulldogs","Cronulla-Sutherland Sharks","Kaiviti Silktails","Manly Warringah Sea Eagles","Melbourne Storm","Newcastle Knights","New Zealand Warriors","Parramatta Eels","Penrith Panthers","South Sydney Rabbitohs","St George Illawarra Dragons","Sydney Roosters","Wests Tigers"]
+    },
+    {
+      "id": "SG Ball",
+      "season": 2026,
+      "source": "NSWRL 2026 SG Ball draw",
+      "teams": ["Balmain Tigers","Canberra Raiders","Canterbury-Bankstown Bulldogs","Central Coast Roosters","Cronulla-Sutherland Sharks","Illawarra Steelers","Manly Warringah Sea Eagles","Melbourne Storm","Newcastle Knights","New Zealand Warriors","North Sydney Bears","Parramatta Eels","Penrith Panthers","South Sydney Rabbitohs","St George Dragons","Sydney Roosters","Western Suburbs Magpies"]
+    },
+    {
+      "id": "Harold Matthews",
+      "season": 2026,
+      "source": "NSWRL 2026 Harold Matthews draw",
+      "teams": ["Balmain Tigers","Canberra Raiders","Canterbury-Bankstown Bulldogs","Central Coast Roosters","Cronulla-Sutherland Sharks","Illawarra Steelers","Manly Warringah Sea Eagles","Melbourne Storm","Newcastle Knights","New Zealand Warriors","North Sydney Bears","Parramatta Eels","Penrith Panthers","South Sydney Rabbitohs","St George Dragons","Sydney Roosters","Western Suburbs Magpies"]
+    },
+    {
+      "id": "Mal Meninga",
+      "season": 2026,
+      "source": "QRL 2026 Mal Meninga Cup draw",
+      "teams": ["Brisbane Tigers","Burleigh Bears","Central Queensland Capras","Ipswich Jets","Mackay Cutters","Northern Pride","Norths Devils","Redcliffe Dolphins","Souths Logan Magpies","Sunshine Coast Falcons","Townsville Blackhawks","Tweed Seagulls","Western Clydesdales","Wynnum Manly Seagulls"]
+    },
+    {
+      "id": "Cyril Connell",
+      "season": 2026,
+      "source": "QRL 2026 Cyril Connell Cup draw",
+      "teams": ["Brisbane Tigers","Burleigh Bears","Central Queensland Capras","Ipswich Jets","Mackay Cutters","Northern Pride","Norths Devils","Redcliffe Dolphins","Souths Logan Magpies","Sunshine Coast Falcons","Townsville Blackhawks","Tweed Seagulls","Western Clydesdales","Western Mustangs Bulls","Wynnum Manly Seagulls"]
+    }
+  ]
+}
