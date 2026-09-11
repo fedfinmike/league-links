@@ -172,6 +172,7 @@ function findPlayers(q,limit=9){
  q=(q||'').trim().toLowerCase();if(!q)return[];
  const starts=[],includes=[];
  for(const p of state.players.values()){
+  if(!(state.appearances.get(String(p.id))>0))continue;
   const n=p.name.toLowerCase();if(n.startsWith(q))starts.push(p);else if(n.includes(q))includes.push(p);
  }
  const rank=p=>state.appearances.get(String(p.id))||0;starts.sort((a,b)=>rank(b)-rank(a));includes.sort((a,b)=>rank(b)-rank(a));
