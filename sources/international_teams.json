@@ -1,0 +1,15 @@
+[
+  {"name":"Australia","slug":"australia"},
+  {"name":"New Zealand","slug":"new-zealand"},
+  {"name":"Tonga","slug":"tonga"},
+  {"name":"Samoa","slug":"samoa"},
+  {"name":"Fiji","slug":"fiji"},
+  {"name":"Cook Islands","slug":"cook-islands"},
+  {"name":"Papua New Guinea","slug":"papua-new-guinea"},
+  {"name":"England","slug":"england"},
+  {"name":"Lebanon","slug":"lebanon"},
+  {"name":"France","slug":"france"},
+  {"name":"Wales","slug":"wales"},
+  {"name":"Scotland","slug":"scotland"},
+  {"name":"Ireland","slug":"ireland"}
+]
