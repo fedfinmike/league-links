@@ -1,0 +1,23 @@
+name: Check League Links app
+on:
+  push:
+    paths:
+      - '*.js'
+      - '*.html'
+      - '*.css'
+      - '.github/workflows/check-app.yml'
+  pull_request:
+    paths:
+      - '*.js'
+      - '*.html'
+      - '*.css'
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript
+        run: |
+          node --check data.js
+          node --check ui.js
+          node --check explore.js
