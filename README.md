@@ -6,22 +6,39 @@ League Links is a free rugby league player-connections site.
 
 https://fedfinmike.github.io/league-links/
 
+## The database we are building
+
+League Links is intended to become one connected rugby league record from **U17 pathways through state cups, NRL, State of Origin and international football**, with history built from **2000 onward wherever reliable records exist**.
+
+The database is being assembled in two layers:
+
+- **Teams first:** competitions and teams are mapped so people can browse the structure of the game.
+- **Players match by match:** player appearances are then added from confirmed matches. Only those match records create teammate links, shared-history totals and connection paths.
+
+This means a team can appear in League Links before its full player history is complete, without ever treating a squad list as a played game.
+
 ## What people can do
 
 - Search a player and see teammates ranked by games together.
 - Click any teammate to open that player's page.
 - Open shared history to see when and where two players played together.
 - Find the shortest connection between any two players.
-- Browse NRL and State of Origin teams by season.
+- Browse mapped teams from U17 pathways through NRL and representative football.
 - Choose international teams including Australia, New Zealand, Tonga, Samoa, Fiji, Cook Islands, Papua New Guinea and other nations.
 
-## Current coverage
+## Current match-confirmed coverage
 
 NRL 2000–2026 and State of Origin 2000–2026 are included in the live player network using match-confirmed player appearances. The 2026 NRL season is an in-season snapshot.
 
-International teams are now first-class choices in the Teams section. Their team-player catalogues are being populated separately from the confirmed-game network. A national squad or career summary does not create a teammate link. International teammate links will be added only from match-confirmed appearances.
+## Team directory now mapped
 
-The next historical layers are international match histories, NSW Cup, Queensland Cup, NYC/Jersey Flegg, SG Ball, Harold Matthews where the age is U17 or older, Mal Meninga, Cyril Connell from its U17 era, Queensland Colts/U20/U21 and other representative teams. NSW Cup and Queensland Cup will be taken back toward 2000 where reliable source coverage supports it.
+The 2026 team directory now includes NRL, State of Origin, international teams, NSW Cup, Queensland Cup, Jersey Flegg, SG Ball, Harold Matthews, Mal Meninga and Cyril Connell. Historical Queensland Colts/U20/U21 and other representative structures are the next mapping layers.
+
+International and lower-grade team directories are kept separate from teammate counts until player-in-match records are confirmed.
+
+## Historical build order
+
+The next major player-history layers are NSW Cup and Queensland Cup, then Jersey Flegg/NYC, SG Ball, Harold Matthews in U17+ seasons, Mal Meninga, Cyril Connell, Queensland Colts/U20/U21, international match histories and other representative teams. The target is to work back toward 2000 wherever the competition existed at U17 or older and reliable sources are available.
 
 ## Counting rule
 
@@ -29,7 +46,7 @@ Two players are counted as teammates only when both are recorded for the same te
 
 ## Design
 
-v0.24 uses a deep Pacific navy, sea-glass teal and warm sand palette. The public interface is deliberately simple: Home, Players, Connect, Teams and Competitions.
+v0.25 uses a deep Pacific navy, sea-glass teal and warm sand palette. The public interface is deliberately simple: Home, Players, Connect, Teams and Competitions.
 
 ## Commercial approach
 
