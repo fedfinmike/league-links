@@ -1,6 +1,6 @@
 [
   {"name":"NRL","status":"live","years":"2008-2026","source":"uselessnrlstats public match data"},
-  {"name":"State of Origin","status":"live","years":"1980-2026","source":"uselessnrlstats cleaned Origin match data"},
+  {"name":"State of Origin","status":"live","years":"2008-2026","source":"uselessnrlstats cleaned Origin match data"},
   {"name":"NSW Cup","status":"building","target":"2008-2026","official":"https://www.nswrl.com.au/draw/?competition=113"},
   {"name":"Queensland Cup","status":"building","target":"2008-2026","official":"https://www.qrl.com.au/draw/?competition=114"},
   {"name":"Jersey Flegg / NYC","status":"building","target":"2008-2026","official":"https://www.nswrl.com.au/draw/?competition=159"},
