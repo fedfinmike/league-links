@@ -1,6 +1,6 @@
 {
   "version": 24,
-  "builtAt": 1789136553719,
+  "builtAt": 1789136709746,
   "historyStart": 2000,
   "historyEnd": 2026,
   "players": 2409,
@@ -10,6 +10,6 @@
     "NRL",
     "State of Origin"
   ],
-  "internationalTeams": 0,
-  "compressedBytes": 1490164
+  "internationalTeams": 13,
+  "compressedBytes": 1490541
 }
