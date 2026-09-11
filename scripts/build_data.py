@@ -6,7 +6,10 @@ from itertools import combinations
 
 NRL='https://raw.githubusercontent.com/uselessnrlstats/uselessnrlstats/main/data/nrl'
 ORIGIN='https://raw.githubusercontent.com/uselessnrlstats/uselessnrlstats/main/cleaned_data/origin'
-OUT=os.path.join(os.path.dirname(__file__),'..','data')
+ROOT=os.path.abspath(os.path.join(os.path.dirname(__file__),'..'))
+OUT=os.path.join(ROOT,'data')
+SUPP_PLAYERS=os.path.join(ROOT,'sources','players.csv')
+SUPP_APPEARANCES=os.path.join(ROOT,'sources','confirmed_appearances.csv')
 
 def get(url):
     req=urllib.request.Request(url,headers={'User-Agent':'LeagueLinksDataBuilder/0.23'})
@@ -81,6 +84,25 @@ def build():
         team=title_case((r.get('team') or '').strip())
         groups[(mid,year,team)].add(pid)
     for (_,year,team),ids in groups.items():add_group(year,'State of Origin',team,ids)
+
+    # Optional League Links-owned match appearances for state cups, youth and other representative football.
+    # Only rows with an explicit match_id are promoted into teammate counts.
+    if os.path.exists(SUPP_PLAYERS):
+        with open(SUPP_PLAYERS,newline='',encoding='utf-8-sig') as f:
+            for r in csv.DictReader(f):
+                pid=(r.get('league_links_id') or '').strip()
+                if pid and pid.isdigit():
+                    players[pid]={'id':pid,'name':(r.get('name') or f'Player {pid}').strip(),'birthday':(r.get('birthday') or '').strip()}
+    if os.path.exists(SUPP_APPEARANCES):
+        local_groups=defaultdict(set)
+        with open(SUPP_APPEARANCES,newline='',encoding='utf-8-sig') as f:
+            for r in csv.DictReader(f):
+                pid=(r.get('league_links_id') or '').strip();mid=(r.get('match_id') or '').strip()
+                year=(r.get('year') or '').strip();competition=(r.get('competition') or '').strip();team=(r.get('team') or '').strip()
+                if not (pid.isdigit() and mid and year.isdigit() and competition and team):continue
+                local_groups[(mid,int(year),competition,team)].add(pid)
+        for (_,year,competition,team),ids in local_groups.items():add_group(year,competition,team,ids)
+
     used=set(appearances)
     payload={
       'version':23,
