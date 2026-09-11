@@ -77,7 +77,7 @@ def build():
     groups=defaultdict(set)
     for r in read_csv(f'{ORIGIN}/player_match_data.csv'):
         pid=(r.get('player_id') or '').strip();mid=(r.get('match_id') or '').strip();year=years.get(mid)
-        if not pid or not mid or not year:continue
+        if not pid or not mid or not year or year < 2008:continue
         team=title_case((r.get('team') or '').strip())
         groups[(mid,year,team)].add(pid)
     for (_,year,team),ids in groups.items():add_group(year,'State of Origin',team,ids)
