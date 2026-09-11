@@ -16,7 +16,7 @@ https://fedfinmike.github.io/league-links/
 
 ## Current coverage
 
-NRL 2008–2026 and State of Origin are included in the live player network. The 2026 NRL season is an in-season snapshot.
+NRL 2008–2026 and State of Origin 2008–2026 are included in the live player network. The 2026 NRL season is an in-season snapshot.
 
 The next historical layers are NSW Cup, Queensland Cup, NYC/Jersey Flegg, SG Ball, Harold Matthews where the age is U17 or older, Mal Meninga, Cyril Connell from its U17 era, Queensland Colts/U20/U21 and other representative teams.
 
