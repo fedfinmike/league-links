@@ -1,36 +1,33 @@
 # League Links
 
-**Every career is a network.**
+League Links is a free rugby league player-connections site.
 
-League Links is an interactive rugby league player-connections product. It lets users explore exact teammate relationships, season-by-season shared playing history, shortest player-to-player connection paths, and club-season appearance rosters.
-
-## Live prototype
+## Live site
 
 https://fedfinmike.github.io/league-links/
 
-## Current public build — v0.22
+## What people can do
 
-The GitHub Pages prototype now includes:
+- Search a player and see teammates ranked by games together.
+- Click any teammate to open that player's page.
+- Open shared history to see when and where two players played together.
+- Find the shortest connection between any two players.
+- Browse a team by competition and season.
 
-- Dynamic Player Ledgers with every teammate name clickable
-- Shared Playing History with season, club and games-together breakdowns
-- Player career timelines
-- Season filtering inside each teammate ledger
-- Connection Finder with clickable path nodes and relationship strength
-- Club & Season roster exploration
-- Recent-player history and saved favourites stored in the browser
-- Shareable player and connection URLs
-- IndexedDB caching for much faster repeat visits
-- Mobile-specific bottom navigation
-- Data coverage and evidence-methodology screens
-- Installable web-app metadata and League Links icon
+## Current coverage
 
-## Evidence rule
+NRL 2008–2026 and State of Origin are included in the live player network. The 2026 NRL season is an in-season snapshot.
 
-A confirmed teammate relationship requires both players to appear for the same team in the same match. Squad membership, team-list-only selection, and same-season club overlap are not counted as games together.
+The next historical layers are NSW Cup, Queensland Cup, NYC/Jersey Flegg, SG Ball, Harold Matthews where the age is U17 or older, Mal Meninga, Cyril Connell from its U17 era, Queensland Colts/U20/U21 and other representative teams.
 
-The current public prototype derives its NRL spine from the public `uselessnrlstats` dataset for 2008–2026. The 2026 season is treated as a current-season partial snapshot. Third-party source licensing and terms should be reviewed before a commercial production release.
+## Counting rule
 
-## Version safety
+Two players are counted as teammates only when both are recorded for the same team in the same match. A squad list or club list on its own does not count as a game together.
 
-The pre-v0.22 public prototype has been preserved on the `v21-backup` branch so the live app can be rolled back if required.
+## Commercial approach
+
+League Links is intended to remain free. The product design allows for a small number of clearly labelled advertisements rather than subscriptions or paywalls. Ads should never cover content, interrupt searches or block player navigation.
+
+## Data delivery
+
+A GitHub Actions job prepares one compressed data file for the public site. The browser uses that prepared file first and only rebuilds from the public source files if the prepared file is unavailable.

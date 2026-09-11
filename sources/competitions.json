@@ -1,0 +1,13 @@
+[
+  {"name":"NRL","status":"live","years":"2008-2026","source":"uselessnrlstats public match data"},
+  {"name":"State of Origin","status":"live","years":"1980-2026","source":"uselessnrlstats cleaned Origin match data"},
+  {"name":"NSW Cup","status":"building","target":"2008-2026","official":"https://www.nswrl.com.au/draw/?competition=113"},
+  {"name":"Queensland Cup","status":"building","target":"2008-2026","official":"https://www.qrl.com.au/draw/?competition=114"},
+  {"name":"Jersey Flegg / NYC","status":"building","target":"2008-2026","official":"https://www.nswrl.com.au/draw/?competition=159"},
+  {"name":"SG Ball Cup","status":"building","target":"2008-2026","official":"https://www.nswrl.com.au/draw/?competition=144"},
+  {"name":"Harold Matthews Cup","status":"building","target":"U17+ era","official":"https://www.nswrl.com.au/draw/?competition=143"},
+  {"name":"Mal Meninga Cup","status":"building","target":"2008-2026","official":"https://www.qrl.com.au/draw/?competition=155"},
+  {"name":"Cyril Connell Cup","status":"building","target":"U17 era from 2024","official":"https://www.qrl.com.au/draw/?competition=154"},
+  {"name":"Queensland Colts / U20 / U21","status":"building","target":"historical pathway years"},
+  {"name":"Other representative teams","status":"building","target":"senior and U17+ representative football"}
+]

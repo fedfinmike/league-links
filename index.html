@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07111b">
-<meta name="description" content="League Links — explore exact rugby league teammate connections, shared playing history and player networks.">
+<meta name="description" content="League Links — explore rugby league teammates, shared seasons and player connections.">
 <meta property="og:title" content="League Links">
-<meta property="og:description" content="Every career is a network. Explore exact NRL teammate connections from 2008–2026.">
+<meta property="og:description" content="Every career is a network. Explore rugby league player connections across the competitions currently in League Links.">
 <meta property="og:type" content="website">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -18,40 +18,40 @@
  <div class="loaderbox">
   <div class="loadmark">LL</div>
   <h1>League Links</h1>
-  <p>Building the exact NRL player network.</p>
+  <p>Getting the player network ready.</p>
   <div class="progress"><i id="progressBar"></i></div>
-  <div class="loadstatus" id="loadStatus">Preparing 2008–2026 match data…</div>
+  <div class="loadstatus" id="loadStatus">Loading rugby league history…</div>
  </div>
 </div>
 <div class="app">
 <aside class="sidebar">
- <button class="brand" data-route="home"><div class="mark">LL</div><div class="brandcopy"><strong>League Links</strong><small>Rugby league intelligence</small></div></button>
+ <button class="brand" data-route="home"><div class="mark">LL</div><div class="brandcopy"><strong>League Links</strong><small>Rugby league connections</small></div></button>
  <div class="navlabel">Explore</div>
  <nav class="nav">
-  <button class="navbtn" data-route="home"><span class="navicon">⌂</span>Overview</button>
-  <button class="navbtn" data-route="players"><span class="navicon">◉</span>Player Ledger</button>
-  <button class="navbtn" data-route="connect"><span class="navicon">⌁</span>Connection Finder</button>
-  <button class="navbtn" data-route="clubs"><span class="navicon">◇</span>Club & Season</button>
-  <button class="navbtn" data-route="coverage"><span class="navicon">✓</span>Coverage</button>
+  <button class="navbtn" data-route="home"><span class="navicon">⌂</span>Home</button>
+  <button class="navbtn" data-route="players"><span class="navicon">◉</span>Players</button>
+  <button class="navbtn" data-route="connect"><span class="navicon">⌁</span>Connect</button>
+  <button class="navbtn" data-route="teams"><span class="navicon">◇</span>Teams</button>
+  <button class="navbtn" data-route="competitions"><span class="navicon">▦</span>Competitions</button>
  </nav>
  <div class="spacer"></div>
- <div class="coverage"><span class="dot"></span><div><strong>Exact NRL spine</strong><small>2008–2026 · match-confirmed</small></div></div>
- <div class="sidefoot"><span>v0.22</span><span>GitHub Pages</span></div>
+ <div class="coverage"><span class="dot"></span><div><strong>NRL + State of Origin</strong><small>More competitions are being added</small></div></div>
+ <div class="sidefoot"><span>v0.23</span><span>Free to use</span></div>
 </aside>
 <div class="workspace">
 <header class="topbar">
- <div class="topcopy"><small>LEAGUE LINKS</small><strong id="pageTitle">Player connection intelligence</strong></div>
- <div class="topactions"><button class="iconbtn" id="globalSearchBtn" title="Search players">⌕</button><span class="status" id="dataStatus">Loading data</span></div>
+ <div class="topcopy"><small>LEAGUE LINKS</small><strong id="pageTitle">Rugby league connections</strong></div>
+ <div class="topactions"><button class="iconbtn" id="globalSearchBtn" title="Search players">⌕</button><span class="status" id="dataStatus">Loading</span></div>
 </header>
 <main>
 <section class="view" id="view-home">
  <div class="hero">
   <div class="herocopy">
-   <div class="pill"><i></i> Match-confirmed NRL relationships</div>
+   <div class="pill"><i></i> NRL + State of Origin</div>
    <h1>Every career is a network.</h1>
-   <p>Explore who played together, when they shared the field, and the shortest connection between any two NRL players.</p>
-   <div class="heroactions"><button class="primary" id="startExplore">Explore a player</button><button class="ghost" data-route="connect">Find a connection</button></div>
-   <div class="proof"><span><b>✓</b>Same-match evidence</span><span><b>✓</b>Season-by-season history</span><span><b>✓</b>2008–2026 NRL</span></div>
+   <p>Search a player, see who they played with, compare shared seasons, or find the shortest link between any two players.</p>
+   <div class="heroactions"><button class="primary" id="startExplore">Find a player</button><button class="ghost" data-route="connect">Connect two players</button></div>
+   <div class="proof"><span><b>✓</b>Games together</span><span><b>✓</b>Season history</span><span><b>✓</b>Clickable player journeys</span></div>
   </div>
   <div class="heropanel">
    <div class="panelhead"><span>Find a player</span><span>Type a name</span></div>
@@ -60,41 +60,44 @@
   </div>
  </div>
  <div class="stats">
-  <div class="stat"><strong id="sPlayers">—</strong><span>Players indexed</span></div>
-  <div class="stat"><strong id="sEdges">—</strong><span>Exact teammate links</span></div>
-  <div class="stat"><strong id="sApps">—</strong><span>Player appearances</span></div>
-  <div class="stat"><strong>19</strong><span>NRL seasons</span></div>
+  <div class="stat"><strong id="sPlayers">—</strong><span>Players</span></div>
+  <div class="stat"><strong id="sEdges">—</strong><span>Player links</span></div>
+  <div class="stat"><strong id="sApps">—</strong><span>Games recorded</span></div>
+  <div class="stat"><strong id="sComps">—</strong><span>Competitions live</span></div>
  </div>
- <div class="section"><div class="sectionhead"><div><p class="eyebrow">START HERE</p><h2>Three ways to explore</h2></div></div><div class="deck">
-  <button class="feature card" data-route="players" style="text-align:left;color:inherit"><i>01</i><strong>Player Ledger</strong><p>Rank every confirmed teammate by games played together, then open any teammate as a new ledger.</p></button>
-  <button class="feature card" data-route="connect" style="text-align:left;color:inherit"><i>02</i><strong>Connection Finder</strong><p>Find the shortest match-confirmed player chain between any two people in the network.</p></button>
-  <button class="feature card" data-route="clubs" style="text-align:left;color:inherit"><i>03</i><strong>Club & Season</strong><p>Browse a club’s exact appearance roster for any loaded season and jump straight into a player.</p></button>
+ <aside class="ad-slot ad-wide" aria-label="Advertisement"><span>Advertisement</span><div><strong>Partner space</strong><small>League Links will stay free, supported by a small number of simple ads.</small></div></aside>
+ <div class="section"><div class="sectionhead"><div><p class="eyebrow">START HERE</p><h2>Three easy ways to explore</h2></div></div><div class="deck">
+  <button class="feature card" data-route="players"><i>01</i><strong>Pick a player</strong><p>See their teammates ranked by games together, then click any name to keep exploring.</p></button>
+  <button class="feature card" data-route="connect"><i>02</i><strong>Find a link</strong><p>See the shortest player-to-player path between any two people in League Links.</p></button>
+  <button class="feature card" data-route="teams"><i>03</i><strong>Browse a team</strong><p>Choose a competition, season and team, then open any player from that squad of match appearances.</p></button>
  </div></div>
- <div class="section" id="recentSection"><div class="sectionhead"><div><p class="eyebrow">YOUR EXPLORATION</p><h2>Recent players</h2></div><button class="ghost" id="clearRecent">Clear</button></div><div class="people" id="recentPeople"></div></div>
- <div class="section" id="favSection"><div class="sectionhead"><div><p class="eyebrow">SAVED</p><h2>Favourite players</h2></div></div><div class="people" id="favPeople"></div></div>
+ <div class="section" id="recentSection"><div class="sectionhead"><div><p class="eyebrow">RECENT</p><h2>Players you viewed</h2></div><button class="ghost" id="clearRecent">Clear</button></div><div class="people" id="recentPeople"></div></div>
+ <div class="section" id="favSection"><div class="sectionhead"><div><p class="eyebrow">FAVOURITES</p><h2>Saved players</h2></div></div><div class="people" id="favPeople"></div></div>
 </section>
 <section class="view" id="view-players">
- <div class="sectionhead"><div><p class="eyebrow">PLAYER LEDGER</p><h1 id="ledgerHeading">Choose a player</h1><p id="ledgerIntro">Every row is based on confirmed appearances in the same match for the same team.</p></div><div class="searchwrap" style="width:min(420px,100%)"><input id="ledgerSearch" autocomplete="off" placeholder="Search any player…"><div class="suggestions" id="ledgerSuggestions"></div></div></div>
+ <div class="sectionhead"><div><p class="eyebrow">PLAYERS</p><h1 id="ledgerHeading">Choose a player</h1><p id="ledgerIntro">See who they played with and when.</p></div><div class="searchwrap searchpanel"><input id="ledgerSearch" autocomplete="off" placeholder="Search any player…"><div class="suggestions" id="ledgerSuggestions"></div></div></div>
  <div id="playerContent"><div class="card empty"><strong>Search for a player to begin.</strong>Then click any teammate to keep moving through the network.</div></div>
 </section>
 <section class="view" id="view-connect">
- <div class="sectionhead"><div><p class="eyebrow">CONNECTION FINDER</p><h1>Connect any two players.</h1><p>League Links searches the exact teammate graph for the shortest path.</p></div></div>
- <div class="connectform"><div class="field searchwrap"><label>Player one</label><input id="connectA" autocomplete="off" placeholder="Start player"><div class="suggestions" id="connectASuggestions"></div></div><div class="field searchwrap"><label>Player two</label><input id="connectB" autocomplete="off" placeholder="End player"><div class="suggestions" id="connectBSuggestions"></div></div><button class="primary" id="connectGo">Find connection</button></div>
- <div class="card result" id="connectionResult"><div class="empty"><strong>Choose two players.</strong>We’ll show the shortest confirmed teammate chain between them.</div></div>
+ <div class="sectionhead"><div><p class="eyebrow">CONNECT</p><h1>How are they linked?</h1><p>Choose any two players and League Links will find the shortest path between them.</p></div></div>
+ <div class="connectform"><div class="field searchwrap"><label>Player one</label><input id="connectA" autocomplete="off" placeholder="Start player"><div class="suggestions" id="connectASuggestions"></div></div><div class="field searchwrap"><label>Player two</label><input id="connectB" autocomplete="off" placeholder="End player"><div class="suggestions" id="connectBSuggestions"></div></div><button class="primary" id="connectGo">Find link</button></div>
+ <div class="card result" id="connectionResult"><div class="empty"><strong>Choose two players.</strong>We’ll show how they connect.</div></div>
 </section>
-<section class="view" id="view-clubs">
- <div class="sectionhead"><div><p class="eyebrow">CLUB & SEASON</p><h1>Browse an exact roster.</h1><p>Select a season and club to see players with confirmed match appearances.</p></div></div>
- <div class="clubform"><div class="field"><label>Season</label><select id="clubYear"></select></div><div class="field"><label>Club</label><select id="clubTeam"></select></div><button class="primary" id="clubGo">Show roster</button></div>
- <div id="clubMeta"></div><div class="roster" id="clubRoster"></div>
+<section class="view" id="view-teams">
+ <div class="sectionhead"><div><p class="eyebrow">TEAMS</p><h1>Browse a season.</h1><p>Choose a competition, season and team to see the players recorded in matches.</p></div></div>
+ <div class="teamform"><div class="field"><label>Competition</label><select id="teamCompetition"></select></div><div class="field"><label>Season</label><select id="teamYear"></select></div><div class="field"><label>Team</label><select id="teamName"></select></div><button class="primary" id="teamGo">Show players</button></div>
+ <div id="teamMeta"></div><div class="roster" id="teamRoster"></div>
 </section>
-<section class="view" id="view-coverage">
- <div class="sectionhead"><div><p class="eyebrow">DATA COVERAGE</p><h1>Evidence before inference.</h1><p>League Links keeps confirmed appearances separate from squad, team-list and season-overlap evidence.</p></div><button class="ghost" id="refreshData">Refresh source data</button></div>
- <div class="covergrid"><div class="covercard card"><strong id="cPlayers">—</strong><span>Players indexed</span></div><div class="covercard card"><strong id="cEdges">—</strong><span>Exact links</span></div><div class="covercard card"><strong id="cApps">—</strong><span>Appearances</span></div><div class="covercard card"><strong id="cHist">—</strong><span>Pair-season records</span></div></div>
- <div class="section"><div class="sectionhead"><div><h2>NRL season coverage</h2><p>2008–2025 historical; 2026 is an in-season snapshot.</p></div></div><div class="years" id="coverageYears"></div></div>
- <div class="section card method"><h3>Counting rule</h3><p>A teammate game is created only when two players appear for the same team in the same match. Club membership, squad membership and team-list co-selection are not silently converted into games together.</p><ol><li>Confirmed same-match appearances</li><li>Exact numeric teammate records</li><li>Official team-list co-selection</li><li>Squad membership</li><li>Season-level club overlap</li></ol><p>This GitHub Pages prototype derives its NRL spine from the public <a href="https://github.com/uselessnrlstats/uselessnrlstats" target="_blank" rel="noopener">uselessnrlstats</a> dataset. A separate licensing/terms review is required before treating any third-party dataset as a commercial production source.</p></div>
+<section class="view" id="view-competitions">
+ <div class="sectionhead"><div><p class="eyebrow">COMPETITIONS</p><h1>More of the game, in one place.</h1><p>NRL and State of Origin are available now. State cups, youth competitions and junior representative football are being added next.</p></div></div>
+ <div class="competition-grid" id="competitionGrid"></div>
+ <div class="section card simple-note"><h3>How a player link is counted</h3><p>Two players are linked only when both are recorded for the same team in the same match. Being in the same squad or on the same club list does not count as a game together.</p></div>
+ <div class="section card simple-note"><h3>What we are adding next</h3><p>NSW Cup and Queensland Cup come first, followed by NYC and Jersey Flegg, SG Ball, Harold Matthews where it is under-17 or older, Mal Meninga, Cyril Connell from its under-17 era, Queensland Colts and other representative teams.</p></div>
 </section>
-</main></div></div>
-<nav class="bottomnav"><button data-route="home"><span>⌂</span>Home</button><button data-route="players"><span>◉</span>Players</button><button data-route="connect"><span>⌁</span>Connect</button><button data-route="clubs"><span>◇</span>Clubs</button><button data-route="coverage"><span>✓</span>Coverage</button></nav>
+</main>
+<footer class="sitefoot"><span>League Links is free to use.</span><span>Supported by a small number of simple advertisements.</span></footer>
+</div></div>
+<nav class="bottomnav"><button data-route="home"><span>⌂</span>Home</button><button data-route="players"><span>◉</span>Players</button><button data-route="connect"><span>⌁</span>Connect</button><button data-route="teams"><span>◇</span>Teams</button><button data-route="competitions"><span>▦</span>Comps</button></nav>
 <div class="drawerback" id="drawerBack"><aside class="drawer" id="drawer"></aside></div><div class="toast" id="toast"></div>
 <script src="data.js" defer></script><script src="ui.js" defer></script><script src="explore.js" defer></script>
 </body></html>

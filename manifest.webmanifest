@@ -1,17 +1,10 @@
 {
-  "name": "League Links",
-  "short_name": "League Links",
-  "description": "Rugby league player connection intelligence",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#06101a",
-  "theme_color": "#07111b",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "name":"League Links",
+  "short_name":"League Links",
+  "description":"Explore rugby league teammates, shared seasons and player connections.",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#07111b",
+  "theme_color":"#07111b",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
