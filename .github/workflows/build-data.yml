@@ -10,6 +10,8 @@ on:
       - 'scripts/build_rlp_exact.py'
       - 'scripts/merge_lower_grades.py'
       - 'scripts/merge_opponents.py'
+      - 'scripts/refresh_nrl_2026.py'
+      - 'scripts/check_2026_freshness.py'
       - 'sources/international_teams.json'
       - 'sources/players.csv'
       - 'sources/confirmed_appearances.csv'
@@ -36,6 +38,8 @@ jobs:
           python scripts/merge_lower_grades.py
           python scripts/build_opponents.py
           python scripts/merge_opponents.py
+          python scripts/refresh_nrl_2026.py
+          python scripts/check_2026_freshness.py
       - name: Save prepared data files
         run: |
           git config user.name "League Links data bot"
