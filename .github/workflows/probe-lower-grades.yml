@@ -1,10 +1,9 @@
-name: Probe rugby league match sources
+name: Probe lower-grade match data
 on:
   workflow_dispatch:
   push:
     paths:
       - 'scripts/probe_championdata.py'
-      - 'scripts/probe_internationals.py'
       - '.github/workflows/probe-lower-grades.yml'
 jobs:
   probe:
@@ -14,5 +13,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Inspect international source paths
-        run: python scripts/probe_internationals.py
+      - name: Inspect available competitions and fixtures
+        run: python scripts/probe_championdata.py
