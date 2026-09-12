@@ -50,8 +50,8 @@ def full_name(x):return ' '.join(v for v in [str(x.get('firstname') or '').strip
 def did_play(stat):
  # Match Centre can name up to 19 players. A starter is identified by an on-field position.
  # Bench/reserve players are labelled Interchange, so they count only when official match
- # statistics record actual activity. This keeps unused reserves out while allowing an
- # activated 18th man to count when he genuinely takes the field.
+ # statistics record actual activity. This excludes unused reserves but keeps any activated
+ # replacement who genuinely participates, including exceptional matches with 18 or 19 players.
  if str(stat.get('position') or '').strip().lower()!='interchange':return True
  for k,v in stat.items():
   if k in IGNORE_ACTIVITY or k=='position':continue
@@ -108,8 +108,9 @@ def fetch_current_rows(graph):
  if unmapped:raise RuntimeError(f'Unmapped official NRL squad IDs: {sorted(unmapped)}')
  rows=list({tuple(r):r for r in rows}.values());groups=defaultdict(set)
  for pid,mid,y,c,t,o in rows:groups[(mid,t)].add(pid)
- # 17 is standard; an activated 18th man is legitimate. A full 19-man list is not.
- bad=[(k,len(v)) for k,v in groups.items() if not (13<=len(v)<=18)]
+ # Official match activity is decisive. 17 is standard, but exceptional replacement cases
+ # can produce 18 or 19 genuine participants. A named reserve with zero activity is filtered out above.
+ bad=[(k,len(v)) for k,v in groups.items() if not (13<=len(v)<=19)]
  if bad:raise RuntimeError(f'Unexpected participant counts in official feed: {bad[:10]}')
  print('Official 2026 NRL:',len(completed),'completed matches',len(groups),'team-match groups',len(rows),'player appearances')
  print('Synthetic late-debut identities:',len(synthetic))
