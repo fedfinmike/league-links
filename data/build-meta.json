@@ -1,6 +1,6 @@
 {
   "version": 24,
-  "builtAt": 1789174425760,
+  "builtAt": 1789174802151,
   "historyStart": 2000,
   "historyEnd": 2026,
   "players": 2409,
@@ -11,5 +11,5 @@
     "State of Origin"
   ],
   "internationalTeams": 13,
-  "compressedBytes": 1490540
+  "compressedBytes": 1490541
 }
