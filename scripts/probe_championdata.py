@@ -3,8 +3,8 @@ import json,re,urllib.request
 from html.parser import HTMLParser
 
 def text(url):
- req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 LeagueLinks/0.26'})
- with urllib.request.urlopen(req,timeout=20) as r:return r.status,r.read().decode('utf-8','replace')
+ req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 LeagueLinks/0.27','Accept':'application/json, text/plain, */*'})
+ with urllib.request.urlopen(req,timeout=30) as r:return r.status,r.read().decode('utf-8','replace')
 
 class P(HTMLParser):
  def __init__(self):super().__init__();self.tables=[];self.table=None;self.row=None;self.cell=None
@@ -30,6 +30,19 @@ _,body=text('https://mc.championdata.com/data/competitions.json');data=json.load
 for r in ((data.get('competitionDetails') or {}).get('competition') or []):
  name=str(r.get('name',''))
  if re.search(r'NRL|Origin|World Cup|Pacific Cup',name,re.I):print(json.dumps(r,sort_keys=True))
+
+print('\n2026 NRL FIXTURE')
+status,body=text('https://mc.championdata.com/data/12999/fixture.json');fixture=json.loads(body)
+matches=(fixture.get('fixture') or {}).get('match') or []
+print('status',status,'matches',len(matches))
+for m in matches[-20:]:print(json.dumps(m,sort_keys=True)[:2500])
+completed=[m for m in matches if str(m.get('matchStatus','')).lower()=='complete']
+if completed:
+ m=completed[-1];mid=m['matchId'];print('\nLATEST COMPLETED MATCH',mid)
+ status,body=text(f'https://mc.championdata.com/data/12999/{mid}.json');d=json.loads(body);ms=d.get('matchStats') or {}
+ print('status',status,'keys',sorted(ms.keys()))
+ for key in ['matchInfo','teamInfo','playerInfo','playerStats']:
+  obj=ms.get(key);print('\n',key, json.dumps(obj,ensure_ascii=False)[:12000])
 
 for url in ['https://www.rugbyleagueproject.org/seasons/qld-cup-2025/players.html','https://www.rugbyleagueproject.org/seasons/qld-cup-2025/brisbane-tigers/Round-1','https://www.rugbyleagueproject.org/seasons/nsw-cup-2025/players.html']:
  status,html=text(url);p=P();p.feed(html)
