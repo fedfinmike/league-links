@@ -57,14 +57,31 @@ jobs:
           PY
       - name: Save v0.28 prepared data
         run: |
+          set -euo pipefail
           git config user.name "League Links data bot"
           git config user.email "actions@users.noreply.github.com"
+
+          # Preserve the validated generated corpus, then move onto whatever is
+          # currently at the branch tip before committing. This avoids replaying
+          # stale development commits if the UI/workflow changed during a long
+          # historical-source build.
+          tmpdir="$(mktemp -d)"
+          cp data/league-links.json.gz "$tmpdir/league-links.json.gz"
+          cp data/build-meta.json "$tmpdir/build-meta.json"
+          cp data/opponents.json.gz "$tmpdir/opponents.json.gz"
+          cp data/opponents-meta.json "$tmpdir/opponents-meta.json"
+
+          git fetch origin "$GITHUB_REF_NAME"
+          git reset --hard "origin/$GITHUB_REF_NAME"
+          cp "$tmpdir/league-links.json.gz" data/league-links.json.gz
+          cp "$tmpdir/build-meta.json" data/build-meta.json
+          cp "$tmpdir/opponents.json.gz" data/opponents.json.gz
+          cp "$tmpdir/opponents-meta.json" data/opponents-meta.json
+
           git add data/league-links.json.gz data/build-meta.json data/opponents.json.gz data/opponents-meta.json
           if git diff --cached --quiet; then
             echo "No data changes"
           else
             git commit -m "Build v0.28 exact international corpus"
-            git fetch origin "$GITHUB_REF_NAME"
-            git rebase "origin/$GITHUB_REF_NAME"
             git push origin "HEAD:$GITHUB_REF_NAME"
           fi
