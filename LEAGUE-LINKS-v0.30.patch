@@ -1,0 +1,95 @@
+diff --git a/index.html b/index.html
+--- a/index.html
++++ b/index.html
+@@
+ <link rel="stylesheet" href="theme-v28.css">
+ <link rel="stylesheet" href="theme-v29.css">
++<link rel="stylesheet" href="theme-v30.css">
+@@
+- <div class="hero">
+-  <div class="herocopy">
++ <div class="hero hero-v30">
++  <div class="hero-top">
+    <div class="landingbrand" role="heading" aria-level="1"><img src="icon.svg" alt=""><div><span>RUGBY LEAGUE PLAYER NETWORK</span><strong>League Links</strong></div></div>
+    <div class="pill"><i></i> MATCH-BY-MATCH HISTORY · 2000 ONWARD</div>
+    <h1 class="hero-statement">See where every career connects.</h1>
++  </div>
++  <div class="hero-main">
+    <p>Search a player to explore teammates, opponents, clubs and connections across the game, from junior pathways to representative football.</p>
+    <div class="hero-search">
+     <div class="hero-search-label"><span>Search players</span><span>Start typing a name</span></div>
+     <div class="searchwrap"><input id="homeSearch" autocomplete="off" placeholder="e.g. Hudson Young, Matthew Timoko…" aria-label="Search players"><div class="suggestions" id="homeSuggestions"></div></div>
+    </div>
+    <div class="heroactions"><button class="primary" id="startExplore" aria-hidden="true" tabindex="-1">Find a player</button><button class="ghost" data-route="teams">Browse teams</button><button class="ghost" data-route="connect">Connect two players</button></div>
+    <div class="proof"><span><b>✓</b>Teammates</span><span><b>✓</b>Opponents</span><span><b>✓</b>Shared seasons</span></div>
+   </div>
+-  <div class="heropanel">
++  <div class="heropanel hero-network-panel">
+    <div class="panelhead"><span>Career connections</span><span>Player network</span></div>
+    <div class="network"><span class="nline l1"></span><span class="nline l2"></span><span class="nline l3"></span><span class="nline l4"></span><span class="nnode a">JT</span><span class="nnode b">TS</span><span class="nnode c">HY</span><span class="nnode d">MT</span><span class="nnode e">JP</span></div>
+   </div>
+  </div>
+diff --git a/theme-v30.css b/theme-v30.css
+new file mode 100644
+--- /dev/null
++++ b/theme-v30.css
+@@
++/* v0.30 hero refinement
++   One visible search, full-width tagline, and a cleaner responsive hierarchy. */
++
++.hero.hero-v30{
++  display:grid;
++  grid-template-columns:minmax(0,1.35fr) minmax(300px,.72fr);
++  grid-template-areas:
++    "top top"
++    "main panel";
++  gap:28px 42px;
++  align-items:start;
++}
++
++.hero-top{grid-area:top;max-width:none}
++.hero-main{grid-area:main;min-width:0}
++.hero-network-panel{grid-area:panel;min-width:0}
++.hero-top .landingbrand{margin-bottom:16px}
++.hero-top .landingbrand strong{font-size:clamp(46px,4.8vw,70px);letter-spacing:-3px;line-height:.98}
++.hero-top .pill{margin-bottom:22px}
++.hero-top .hero-statement{margin:0;max-width:none;font-size:clamp(40px,3.9vw,58px);line-height:1.02;letter-spacing:-2.4px}
++.hero-main p{max-width:760px;margin:0;font-size:18px;line-height:1.65;color:#b5c7c9}
++.hero-search{margin-top:24px;max-width:760px}
++.hero-search-label{display:flex;justify-content:space-between;gap:12px;margin:0 4px 8px;color:#8eb0b0;font-size:10px;font-weight:900;letter-spacing:1.15px;text-transform:uppercase}
++.hero-search-label span:last-child{color:#617f84}
++.hero-search .searchwrap input{min-height:58px;padding:15px 17px;border-radius:16px;border-color:rgba(139,224,211,.22);background:rgba(4,20,27,.72);font-size:16px;box-shadow:0 16px 34px rgba(0,8,12,.15),inset 0 1px 0 rgba(255,255,255,.02)}
++.hero-search .searchwrap input:focus{border-color:rgba(75,213,195,.55);box-shadow:0 0 0 3px rgba(75,213,195,.09),0 18px 38px rgba(0,8,12,.16)}
++#startExplore{display:none!important}
++.heroactions{margin-top:16px;gap:11px}
++.heroactions .ghost{background:rgba(8,30,38,.62);border-color:rgba(139,224,211,.16)}
++.heroactions .ghost:hover{border-color:rgba(75,213,195,.34);background:rgba(12,42,51,.8)}
++.hero-network-panel{display:flex;flex-direction:column;justify-content:center}
++.hero-network-panel .panelhead{margin-bottom:10px}
++.hero-network-panel .network{height:290px;margin-top:0}
++.coverage strong{font-size:11px}
++.coverage small{line-height:1.45}
++.sidefoot span:first-child{font-size:0}
++.sidefoot span:first-child::before{content:"v0.30";font-size:10px}
++
++@media (max-width:1200px) and (min-width:761px){
++  .hero.hero-v30{grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:24px 28px}
++  .hero-top .hero-statement{font-size:46px}
++  .hero-network-panel .network{height:245px}
++}
++
++@media (max-width:760px){
++  .hero.hero-v30{grid-template-columns:1fr;grid-template-areas:"top" "main" "panel";gap:20px}
++  .hero-top .landingbrand strong{font-size:42px;letter-spacing:-2.2px}
++  .hero-top .hero-statement{font-size:34px;line-height:1.06;letter-spacing:-1.5px}
++  .hero-main p{font-size:15px}
++  .hero-search{margin-top:20px}
++  .hero-search .searchwrap input{min-height:54px;font-size:15px}
++  .hero-search-label span:last-child{display:none}
++  .hero-network-panel .network{height:205px}
++}
++
++@media (max-width:480px){
++  .hero-top .landingbrand strong{font-size:38px}
++  .hero-top .hero-statement{font-size:31px}
++}
