@@ -11,7 +11,7 @@ const INTERNATIONAL_TEAMS=[
 const COMPETITIONS=[
  {id:'NRL',name:'NRL',status:'live',years:'2000–2026',short:'NRL'},
  {id:'State of Origin',name:'State of Origin',status:'live',years:'2000–2026',short:'Origin'},
- {id:'International',name:'International teams',status:'catalogue',years:'2000–2026',short:'International'},
+ {id:'International',name:'International teams',status:'live',years:'2000–2026 · exact where line-ups are available',short:'International'},
  {id:'NSW Cup',name:'NSW Cup',status:'building',years:'2000–2026 target',short:'NSW Cup'},
  {id:'Queensland Cup',name:'Queensland Cup',status:'building',years:'2000–2026 target',short:'Qld Cup'},
  {id:'NYC / Jersey Flegg',name:'NYC / Jersey Flegg',status:'building',years:'2008–2026',short:'Youth'},
@@ -59,5 +59,5 @@ async function loadData(){setProgress(5,'Checking the latest League Links data�
 function playerMeta(id){id=String(id);const p=state.players.get(id)||{id,name:`Player ${id}`,birthday:''},span=state.playerYears.get(id),cm=state.career.get(id);let latestTeam='Rugby league player',latestYear=-1;const comps=new Set(),teams=new Set();if(cm){for(const [year,tm] of cm)for(const key of tm.keys()){const{competition,team}=splitCareerKey(key);comps.add(competition);teams.add(`${competition}|${team}`);if(competition==='NRL'&&year>=latestYear){latestYear=year;latestTeam=team}}if(latestYear<0&&span&&cm.get(span.last)){const first=[...cm.get(span.last).keys()][0];if(first)latestTeam=splitCareerKey(first).team}}return{...p,span,latestTeam,appearances:state.appearances.get(id)||0,teammates:(state.adj.get(id)||[]).length,teams:teams.size,competitions:comps.size}}
 function findPlayers(q,limit=9){q=(q||'').trim().toLowerCase();if(!q)return[];const starts=[],includes=[];for(const p of state.players.values()){if(!state.appearances.has(String(p.id)))continue;const n=p.name.toLowerCase();if(n.startsWith(q))starts.push(p);else if(n.includes(q))includes.push(p)}const rank=p=>state.appearances.get(String(p.id))||0;starts.sort((a,b)=>rank(b)-rank(a));includes.sort((a,b)=>rank(b)-rank(a));return starts.concat(includes).slice(0,limit)}
 function loadedPlayerCount(){return[...state.appearances.keys()].filter(id=>state.players.has(String(id))).length}
-function availableCompetitionIds(){const live=[...state.competitionsLoaded].sort((a,b)=>a==='NRL'?-1:b==='NRL'?1:a.localeCompare(b));if(!live.includes('International'))live.push('International');return live}
+function availableCompetitionIds(){return[...state.competitionsLoaded].sort((a,b)=>a==='NRL'?-1:b==='NRL'?1:a.localeCompare(b))}
 function competitionShort(id){return COMPETITIONS.find(c=>c.id===id)?.short||id}

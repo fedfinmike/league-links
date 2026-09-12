@@ -1,0 +1,19 @@
+name: Validate international exact data
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/build_internationals.py'
+      - '.github/workflows/probe-international-exact.yml'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Parse a known international season
+        env:
+          LL_INT_YEARS: '2024'
+        run: python scripts/build_internationals.py

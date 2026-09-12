@@ -8,7 +8,9 @@ on:
       - 'scripts/build_data.py'
       - 'scripts/build_opponents.py'
       - 'scripts/build_rlp_exact.py'
+      - 'scripts/build_internationals.py'
       - 'scripts/merge_lower_grades.py'
+      - 'scripts/merge_internationals.py'
       - 'scripts/merge_opponents.py'
       - 'sources/international_teams.json'
       - 'sources/players.csv'
@@ -17,7 +19,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: league-links-data
+  group: league-links-data-${{ github.ref_name }}
   cancel-in-progress: false
 jobs:
   build:
@@ -38,6 +40,8 @@ jobs:
           python scripts/build_data.py
           python scripts/build_rlp_exact.py
           python scripts/merge_lower_grades.py
+          python scripts/build_internationals.py
+          python scripts/merge_internationals.py
           python scripts/build_opponents.py
           python scripts/merge_opponents.py
       - name: Save prepared data files

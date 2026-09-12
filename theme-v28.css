@@ -1,0 +1,115 @@
+/* v0.28 visual refinement
+   Remove duplicate desktop branding/navigation chrome on the landing page,
+   tighten the inner-page header, and give the core player-network experience
+   more room to breathe. */
+
+@media (min-width:761px){
+  .app{grid-template-columns:212px minmax(0,1fr)}
+  .sidebar{padding:24px 12px 18px}
+  .brand{display:none}
+  .navlabel{padding:4px 13px 10px;color:#6f8b90;letter-spacing:1.55px}
+  .nav{gap:6px}
+  .navbtn{padding:12px 13px;border-radius:13px}
+  .coverage{margin-left:3px;margin-right:3px}
+
+  /* The home hero already carries the League Links identity, so the extra
+     breadcrumb/header bar is intentionally removed there. */
+  body:has(#view-home.active) .topbar{display:none}
+  body:has(#view-home.active) main{padding-top:28px}
+}
+
+/* Inner pages retain a deliberately quiet utility header. */
+.topbar{height:58px;padding:0 32px;background:rgba(6,22,29,.78);border-bottom-color:rgba(139,224,211,.07)}
+.topcopy small{display:none}
+.topcopy strong{font-size:14px;letter-spacing:-.1px;color:#e4efed}
+.topactions{gap:10px}
+.status{background:rgba(9,35,43,.55)}
+
+main{max-width:1540px;padding-left:34px;padding-right:34px}
+
+/* Landing page: cleaner, more premium, less boxed-in. */
+.hero{
+  min-height:510px;
+  padding:54px 56px;
+  gap:54px;
+  border-radius:32px;
+  border-color:rgba(139,224,211,.13);
+  background:
+    radial-gradient(circle at 82% 18%,rgba(75,213,195,.13),transparent 25%),
+    radial-gradient(circle at 10% 94%,rgba(239,195,110,.055),transparent 28%),
+    linear-gradient(118deg,#0c2831 0%,#081f28 54%,#0d2933 100%);
+  box-shadow:0 34px 90px rgba(0,10,14,.34);
+}
+.hero:before{
+  width:540px;height:540px;right:-155px;top:-305px;
+  border-color:rgba(75,213,195,.13);
+  box-shadow:0 0 0 72px rgba(75,213,195,.018),0 0 0 150px rgba(239,195,110,.008)
+}
+.hero:after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;
+  background-image:linear-gradient(rgba(142,225,214,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(142,225,214,.03) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 48%,#000 100%);
+}
+.herocopy,.heropanel{position:relative;z-index:2}
+.landingbrand{margin-bottom:22px;gap:18px}
+.landingbrand img{width:76px;height:76px;border-radius:22px;box-shadow:0 22px 48px rgba(75,213,195,.2)}
+.landingbrand span{color:#82aaa9;letter-spacing:1.95px}
+.landingbrand strong{font-size:clamp(40px,4.4vw,62px);letter-spacing:-2.7px}
+.hero .hero-statement{max-width:760px;font-size:clamp(42px,4.7vw,68px);letter-spacing:-3px;line-height:.98}
+.hero p{max-width:760px;font-size:18px;line-height:1.6;color:#b5c7c9}
+.heroactions{margin-top:30px;gap:11px}
+.heroactions .primary,.heroactions .ghost{min-height:46px;padding-left:18px;padding-right:18px}
+.proof{margin-top:22px;gap:20px;color:#8fa5a8}
+
+.heropanel{
+  padding:20px;
+  border-radius:24px;
+  border-color:rgba(139,224,211,.12);
+  background:linear-gradient(180deg,rgba(5,22,28,.86),rgba(5,18,24,.7));
+  box-shadow:0 28px 72px rgba(0,8,12,.28),inset 0 1px 0 rgba(255,255,255,.025)
+}
+.panelhead{margin:2px 5px 12px;color:#7f989c}
+.heropanel .searchwrap input{min-height:50px;border-radius:14px;font-size:15px;padding-left:15px}
+.network{height:226px;margin-top:20px;border-radius:18px;border-color:rgba(139,224,211,.075)}
+.nnode{box-shadow:0 10px 24px rgba(0,8,12,.18)}
+
+.stats{gap:12px;margin-top:14px}
+.stat{padding:17px 18px;border-radius:16px;background:linear-gradient(180deg,#0b222a,#091d25);box-shadow:0 14px 34px rgba(0,10,14,.12)}
+.stat strong{font-size:25px}
+.stat span{font-size:9px;letter-spacing:.9px}
+
+.feature{transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.feature:hover{transform:translateY(-2px);border-color:rgba(75,213,195,.2);background:linear-gradient(180deg,#102a33,#0d242c)}
+
+/* Make the build/version marker reflect the branch without another script. */
+.sidefoot span:first-child{font-size:0}
+.sidefoot span:first-child::before{content:"v0.28";font-size:10px}
+
+@media(max-width:1100px) and (min-width:761px){
+  .app{grid-template-columns:196px minmax(0,1fr)}
+  .hero{padding:42px;gap:34px;min-height:0}
+  .hero .hero-statement{font-size:52px}
+  .heropanel{max-width:none}
+}
+
+@media(max-width:760px){
+  /* On mobile the hero itself is the masthead; avoid a second Home header. */
+  body:has(#view-home.active) .topbar{display:none}
+  body:has(#view-home.active) main{padding-top:16px}
+  .topbar{height:56px;padding:0 16px}
+  .topcopy strong{font-size:13px}
+  .hero{padding:30px 23px 28px;gap:30px;border-radius:24px}
+  .landingbrand{gap:13px;margin-bottom:18px}
+  .landingbrand img{width:60px;height:60px;border-radius:17px}
+  .landingbrand strong{font-size:40px;letter-spacing:-2px}
+  .hero .hero-statement{font-size:40px;letter-spacing:-1.9px}
+  .hero p{font-size:15px}
+  .heropanel{padding:16px;border-radius:20px}
+  .network{height:190px}
+}
+
+@media(max-width:480px){
+  .hero .hero-statement{font-size:37px}
+  .landingbrand strong{font-size:36px}
+}
