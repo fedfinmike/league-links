@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - 'scripts/probe_championdata.py'
       - 'scripts/refresh_nrl_2026.py'
       - 'scripts/check_2026_freshness.py'
       - '.github/workflows/probe-lower-grades.yml'
@@ -14,7 +15,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Test official 2026 NRL refresh
-        run: |
-          python scripts/refresh_nrl_2026.py
-          python scripts/check_2026_freshness.py
+      - name: Inspect participation anomaly
+        run: python scripts/probe_championdata.py
