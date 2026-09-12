@@ -11,6 +11,11 @@ RLP='https://www.rugbyleagueproject.org/seasons'
 YEARS=range(2024,2027)
 COMPS=[('NSW Cup','nsw-cup'),('Queensland Cup','qld-cup')]
 
+QLD_SLUGS=['brisbane-tigers','burleigh-bears','central-queensland-capras','ipswich-jets','mackay-cutters','northern-pride','norths-devils','papua-new-guinea-hunters','redcliffe-dolphins','souths-logan-magpies','sunshine-coast-falcons','townsville-blackhawks','tweed-seagulls','western-clydesdales','wynnum-manly-seagulls']
+NSW_BASE=['canberra-raiders','canterbury-bankstown-bulldogs','cronulla-sutherland-sharks','manly-warringah-sea-eagles','new-zealand-warriors','newcastle-knights','parramatta-eels','penrith-panthers','south-sydney-rabbitohs','st-george-illawarra-dragons','sydney-roosters']
+NSW_SLUGS=['newtown-jets','north-sydney-bears','western-suburbs-magpies','blacktown-workers-sea-eagles']+[s+'-r' for s in NSW_BASE]+NSW_BASE
+TEAM_CANDIDATES={'NSW Cup':NSW_SLUGS,'Queensland Cup':QLD_SLUGS}
+
 TEAM_MAP={
  'brisbane-tigers':'Brisbane Tigers','burleigh-bears':'Burleigh Bears','central-queensland-capras':'Central Queensland Capras','ipswich-jets':'Ipswich Jets','mackay-cutters':'Mackay Cutters','northern-pride':'Northern Pride','norths-devils':'Norths Devils','papua-new-guinea-hunters':'Papua New Guinea Hunters','redcliffe-dolphins':'Redcliffe Dolphins','souths-logan-magpies':'Souths Logan Magpies','sunshine-coast-falcons':'Sunshine Coast Falcons','townsville-blackhawks':'Townsville Blackhawks','tweed-seagulls':'Tweed Seagulls','western-clydesdales':'Western Clydesdales','wynnum-manly-seagulls':'Wynnum Manly Seagulls',
  'canberra-raiders':'Canberra Raiders','canterbury-bankstown-bulldogs':'Canterbury-Bankstown Bulldogs','cronulla-sutherland-sharks':'Cronulla-Sutherland Sharks','manly-warringah-sea-eagles':'Manly Warringah Sea Eagles','new-zealand-warriors':'New Zealand Warriors','newtown-jets':'Newtown Jets','newcastle-knights':'Newcastle Knights','north-sydney-bears':'North Sydney Bears','parramatta-eels':'Parramatta Eels','penrith-panthers':'Penrith Panthers','south-sydney-rabbitohs':'South Sydney Rabbitohs','st-george-illawarra-dragons':'St George Illawarra Dragons','sydney-roosters':'Sydney Roosters','western-suburbs-magpies':'Western Suburbs Magpies','blacktown-workers-sea-eagles':'Blacktown Workers Sea Eagles'
@@ -22,7 +27,7 @@ SHORT_TEAM={
 
 def get(url):
  req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 LeagueLinks/0.26'})
- with urllib.request.urlopen(req,timeout=30) as r:return r.read().decode('utf-8','replace')
+ with urllib.request.urlopen(req,timeout=20) as r:return r.read().decode('utf-8','replace')
 
 def read_csv(url):return list(csv.DictReader(io.StringIO(get(url))))
 def norm(s):return re.sub(r'[^a-z0-9]','',(s or '').lower())
@@ -37,19 +42,6 @@ def team_name(slug):
 def opponent_name(s):
  clean=re.sub(r'\s*\(R\)\s*','', ' '.join((s or '').split())).strip()
  return SHORT_TEAM.get(clean,clean)
-
-def discover_teams(html,prefix):
- found=set()
- # Season-specific team links when present.
- for m in re.finditer(rf'href=["\']/seasons/{re.escape(prefix)}/([^/"\']+)/',html,re.I):
-  slug=m.group(1).lower()
-  if not slug.startswith('round-') and slug not in {'players','coaches','referees','results','rounds','venues','data'}:found.add(slug)
- # Player tables generally link Team(s) to the global team page.
- for m in re.finditer(r'href=["\']/teams/([^/"\']+)/',html,re.I):
-  slug=m.group(1).lower()
-  base=re.sub(r'-(?:r|reserves?)$','',slug)
-  if base in TEAM_MAP:found.add(slug)
- return sorted(found)
 
 class TableParser(HTMLParser):
  def __init__(self):super().__init__();self.tables=[];self.table=None;self.row=None;self.cell=None;self.link=None
@@ -126,20 +118,16 @@ def build():
  canonical=nrl_names();appearances=[];players={};coverage=[]
  for competition,slug in COMPS:
   for season in YEARS:
-   prefix=f'{slug}-{season}';url=f'{RLP}/{prefix}/players.html'
-   try:html=get(url)
-   except Exception as e:print('season unavailable',competition,season,e);continue
-   teams=discover_teams(html,prefix)
-   print(competition,season,'teams found',len(teams),teams)
-   season_apps=0;season_players=set();loaded_teams=0
-   for team_slug in teams:
+   prefix=f'{slug}-{season}';candidates=TEAM_CANDIDATES[competition]
+   season_apps=0;season_players=set();loaded_teams=0;loaded_names=[]
+   for team_slug in candidates:
     try:page=get(f'{RLP}/{prefix}/{team_slug}/Round-1')
-    except Exception as e:print(' team unavailable',team_slug,e);continue
+    except Exception:continue
     rows,ps=parse_team_page(page,competition,season,team_name(team_slug),canonical)
     if not rows:continue
-    loaded_teams+=1;appearances.extend(rows);players.update(ps);season_apps+=len(rows);season_players.update(r[0] for r in rows)
+    loaded_teams+=1;loaded_names.append(team_slug);appearances.extend(rows);players.update(ps);season_apps+=len(rows);season_players.update(r[0] for r in rows)
    coverage.append([competition,season,loaded_teams,len(season_players),season_apps])
-   print(' loaded',loaded_teams,'teams',len(season_players),'players',season_apps,'appearances')
+   print(competition,season,'loaded',loaded_teams,'teams',loaded_names,len(season_players),'players',season_apps,'appearances')
  appearances=list({tuple(r):r for r in appearances}.values())
  used={r[0] for r in appearances};players=[players[p] for p in sorted(used,key=int) if p in players]
  payload={'version':26,'builtAt':int(datetime.now(timezone.utc).timestamp()*1000),'players':players,'appearances':appearances,'coverage':coverage}
