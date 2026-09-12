@@ -1,11 +1,11 @@
 {
   "version": 26,
-  "builtAt": 1789176244789,
+  "builtAt": 1789178802848,
   "historyStart": 2000,
   "historyEnd": 2026,
-  "players": 3100,
-  "links": 110643,
-  "playerAppearances": 197161,
+  "players": 3115,
+  "links": 111211,
+  "playerAppearances": 199951,
   "competitions": [
     "NRL",
     "NSW Cup",
@@ -57,5 +57,12 @@
       4171
     ]
   ],
-  "compressedBytes": 1699878
+  "compressedBytes": 1712217,
+  "currentNRLSource": "NRL Match Centre / Champion Data",
+  "currentNRLCompetitionId": 12999,
+  "currentNRLSeason": 2026,
+  "currentNRLCompletedMatches": 204,
+  "currentNRLMaxRound": 27,
+  "currentNRLPlayerAppearances": 6931,
+  "currentNRLMatchTeamGroups": 408
 }

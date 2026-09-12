@@ -1,7 +1,11 @@
 {
   "version": 26,
-  "players": 3100,
-  "rows": 139576,
-  "games": 197161,
-  "compressedBytes": 475914
+  "players": 3115,
+  "rows": 140938,
+  "games": 199951,
+  "compressedBytes": 487072,
+  "currentNRLSource": "NRL Match Centre / Champion Data",
+  "currentNRLSeason": 2026,
+  "currentNRLCompletedMatches": 204,
+  "currentNRLMaxRound": 27
 }
