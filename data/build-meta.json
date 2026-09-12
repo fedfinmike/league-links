@@ -1,6 +1,6 @@
 {
-  "version": 24,
-  "builtAt": 1789174802151,
+  "version": 26,
+  "builtAt": 1789175210831,
   "historyStart": 2000,
   "historyEnd": 2026,
   "players": 2409,
@@ -11,5 +11,49 @@
     "State of Origin"
   ],
   "internationalTeams": 13,
+  "lowerGradeCoverage": [
+    [
+      "NSW Cup",
+      2024,
+      0,
+      0,
+      0
+    ],
+    [
+      "NSW Cup",
+      2025,
+      0,
+      0,
+      0
+    ],
+    [
+      "NSW Cup",
+      2026,
+      0,
+      0,
+      0
+    ],
+    [
+      "Queensland Cup",
+      2024,
+      0,
+      0,
+      0
+    ],
+    [
+      "Queensland Cup",
+      2025,
+      0,
+      0,
+      0
+    ],
+    [
+      "Queensland Cup",
+      2026,
+      0,
+      0,
+      0
+    ]
+  ],
   "compressedBytes": 1490541
 }
