@@ -5,6 +5,7 @@ from itertools import combinations
 ROOT=os.path.abspath(os.path.join(os.path.dirname(__file__),'..'))
 GRAPH=os.path.join(ROOT,'data','league-links.json.gz')
 LOWER=os.path.join(ROOT,'data','lower-grade-exact.json')
+META=os.path.join(ROOT,'data','build-meta.json')
 
 def pair_key(a,b):
  a,b=str(a),str(b);return f'{a}|{b}' if int(a)<int(b) else f'{b}|{a}'
@@ -14,6 +15,9 @@ def main():
   print('No lower-grade exact file');return
  with gzip.open(GRAPH,'rb') as f:p=json.loads(f.read())
  with open(LOWER,encoding='utf-8') as f:l=json.load(f)
+ try:
+  with open(META,encoding='utf-8') as f:old_meta=json.load(f)
+ except Exception:old_meta={}
  players={str(x['id']):x for x in p.get('players',[])}
  for x in l.get('players',[]):players.setdefault(str(x['id']),{'id':str(x['id']),'name':x.get('name') or f"Player {x['id']}",'birthday':''})
  apps=defaultdict(int,{str(k):int(v) for k,v in p.get('appearances',[])})
@@ -44,9 +48,24 @@ def main():
  p['edges']=list(edges.values())
  p['histories']=[[pk,y,c,t,g] for (pk,y,c,t),g in histories.items()]
  p['competitionsLoaded']=sorted(comps)
- p['version']=26
+ # Keep prepared graph schema at v24 so the current browser loader can restore it.
+ p['version']=24
  raw=json.dumps(p,separators=(',',':'),ensure_ascii=False).encode()
  with gzip.open(GRAPH,'wb',compresslevel=9) as f:f.write(raw)
- print(json.dumps({'lowerGradeMatchGroups':len(groups),'lowerGradeAppearances':sum(len(x) for x in groups.values()),'players':len(p['players']),'links':len(p['edges']),'competitions':p['competitionsLoaded']},indent=2))
+ meta={
+  'version':26,
+  'builtAt':old_meta.get('builtAt',p.get('builtAt')),
+  'historyStart':old_meta.get('historyStart',2000),
+  'historyEnd':old_meta.get('historyEnd',2026),
+  'players':len(p['players']),
+  'links':len(p['edges']),
+  'playerAppearances':sum(apps.values()),
+  'competitions':sorted(comps),
+  'internationalTeams':old_meta.get('internationalTeams',13),
+  'lowerGradeCoverage':l.get('coverage',[]),
+  'compressedBytes':os.path.getsize(GRAPH)
+ }
+ with open(META,'w',encoding='utf-8') as f:json.dump(meta,f,indent=2)
+ print(json.dumps({'lowerGradeMatchGroups':len(groups),'lowerGradeAppearances':sum(len(x) for x in groups.values()),**meta},indent=2))
 
 if __name__=='__main__':main()
