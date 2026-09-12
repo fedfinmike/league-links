@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'scripts/probe_championdata.py'
-      - 'scripts/probe_nrl_official.py'
+      - 'scripts/refresh_nrl_2026.py'
+      - 'scripts/check_2026_freshness.py'
       - '.github/workflows/probe-lower-grades.yml'
 jobs:
   probe:
