@@ -20,5 +20,8 @@ jobs:
       - name: Check JavaScript
         run: |
           node --check data.js
+          node --check opponents.js
+          node --check catalogues.js
           node --check ui.js
           node --check explore.js
+          node --check v26.js
