@@ -4,6 +4,10 @@ function orderedCompetitionIds(ids){return[...new Set(ids)].sort((a,b)=>competit
 availableCompetitionIds=function(){return orderedCompetitionIds([...state.competitionsLoaded,'International'])};
 relationshipComps=function(a,b){return orderedCompetitionIds(histories(a,b).map(h=>h.competition)).map(competitionShort)};
 
+// Complete the competition directory even where match-confirmed history is still being populated.
+TEAM_DIRECTORY['Queensland Colts']={season:2023,teams:['Brisbane Tigers','Burleigh Bears','Central Queensland Capras','Ipswich Jets','Mackay Cutters','Northern Pride','Norths Devils','Redcliffe Dolphins','Souths Logan Magpies','Sunshine Coast Falcons','Townsville Blackhawks','Tweed Seagulls','Western Clydesdales','Wynnum Manly Seagulls']};
+TEAM_DIRECTORY['Other representative']={season:2026,teams:['Indigenous All Stars','Māori All Stars','Australia PM’s XIII','Papua New Guinea PM’s XIII','Junior Kangaroos','Junior Kiwis','New South Wales Residents','Queensland Residents','Australian Schoolboys']};
+
 applyV25Copy=function(){
  const cov=document.querySelector('.coverage');if(cov){const s=cov.querySelector('strong'),sm=cov.querySelector('small');if(s)s.textContent='Rugby league history from 2000';if(sm)sm.textContent='Under-17 pathways through to internationals'}
  const ver=document.querySelector('.sidefoot span:first-child');if(ver)ver.textContent='v0.26';
