@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-import json,urllib.request
+import difflib,gzip,json,os,re,unicodedata
+ROOT=os.path.abspath(os.path.join(os.path.dirname(__file__),'..'))
+GRAPH=os.path.join(ROOT,'data','league-links.json.gz')
+TARGETS=['Apa Twidle','Braden Uele','Clint Gutherson','Cooper Toy','Dayne Jennings','Hayden Watson','Jacob Webster','Jai Bowden','Jared Haywood','Jethro Rinakama','Jett Cleary','Jezaiah Funa-Iuta','Joe Roddy','Jojo Fifita','Josese Lanyon','Josh Coric','Josh Patston','Kalani Leuluai-Going','Lachlan Crouch','Makaia Tafua','Malachi Smith','Mat Feagai','Matt Timoko','Matthew Lodge','Michael Gabrael','Rex Bassingthwaite','Riley Pollard','Ryda Talagi','Sam Hughes','Solomone Saukuru','Toby Winter','Tom Hazelton','Tuki Simpkins','Vaka Aho','Vena Patuki-Case']
 
-def get(url):
- req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 LeagueLinks/0.27','Accept':'application/json'})
- with urllib.request.urlopen(req,timeout=30) as r:return json.loads(r.read().decode())
-mid=129991401
-ms=(get(f'https://mc.championdata.com/data/12999/{mid}.json').get('matchStats') or {})
-info={int(x['playerId']):x for x in ((ms.get('playerInfo') or {}).get('player') or [])}
-stats=(ms.get('playerStats') or {}).get('player') or []
-print('match',mid,'rows',len(stats))
-for s in stats:
- if int(s.get('squadId',0))!=335:continue
- x=info.get(int(s.get('playerId',0)),{});name=((x.get('firstname') or '')+' '+(x.get('surname') or '')).strip()
- nonzero={k:v for k,v in s.items() if k not in ('playerId','squadId','jumperNumber','position') and isinstance(v,(int,float)) and v!=0}
- print(json.dumps({'name':name,'jumper':s.get('jumperNumber'),'position':s.get('position'),'nonzero':nonzero},ensure_ascii=False))
+def norm(s):
+ s=unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode().lower()
+ return re.sub(r'[^a-z0-9]+','',s)
+with gzip.open(GRAPH,'rb') as f:p=json.loads(f.read())
+base=[x.get('name','') for x in p.get('players',[]) if int(x.get('id') or 0)<9_000_000_000_000]
+nb={norm(x):x for x in base}
+keys=list(nb)
+for t in TARGETS:
+ k=norm(t);close=difflib.get_close_matches(k,keys,n=5,cutoff=.55)
+ scored=sorted(((difflib.SequenceMatcher(None,k,x).ratio(),nb[x]) for x in close),reverse=True)
+ print(t,'=>',scored)
