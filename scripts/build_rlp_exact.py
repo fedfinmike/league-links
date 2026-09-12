@@ -17,7 +17,7 @@ TEAM_MAP={
 }
 SHORT_TEAM={
  'Brisbane':'Brisbane Tigers','Burleigh':'Burleigh Bears','Central QLD':'Central Queensland Capras','Ipswich':'Ipswich Jets','Mackay':'Mackay Cutters','Northern':'Northern Pride','Norths':'Norths Devils','PNG':'Papua New Guinea Hunters','Redcliffe':'Redcliffe Dolphins','Souths Logan':'Souths Logan Magpies','Sunshine Coast':'Sunshine Coast Falcons','Townsville':'Townsville Blackhawks','Tweed':'Tweed Seagulls','Western':'Western Clydesdales','Wynnum-Manly':'Wynnum Manly Seagulls',
- 'Canberra':'Canberra Raiders','Canterbury':'Canterbury-Bankstown Bulldogs','Cronulla':'Cronulla-Sutherland Sharks','Manly':'Manly Warringah Sea Eagles','Warriors':'New Zealand Warriors','New Zealand':'New Zealand Warriors','Newtown':'Newtown Jets','Newcastle':'Newcastle Knights','North Sydney':'North Sydney Bears','Parramatta':'Parramatta Eels','Penrith':'Penrith Panthers','South Sydney':'South Sydney Rabbitohs','St George Illawarra':'St George Illawarra Dragons','Sydney Roosters':'Sydney Roosters','Western Suburbs':'Western Suburbs Magpies','Blacktown Workers':'Blacktown Workers Sea Eagles'
+ 'Canberra':'Canberra Raiders','Canterbury':'Canterbury-Bankstown Bulldogs','Cronulla':'Cronulla-Sutherland Sharks','Manly':'Manly Warringah Sea Eagles','Warriors':'New Zealand Warriors','New Zealand':'New Zealand Warriors','Newtown':'Newtown Jets','Newcastle':'Newcastle Knights','North Sydney':'North Sydney Bears','Parramatta':'Parramatta Eels','Penrith':'Penrith Panthers','South Sydney':'South Sydney Rabbitohs','Souths':'South Sydney Rabbitohs','St Geo Illa':'St George Illawarra Dragons','St George Illawarra':'St George Illawarra Dragons','Sydney':'Sydney Roosters','Sydney Roosters':'Sydney Roosters','Wests':'Western Suburbs Magpies','Western Suburbs':'Western Suburbs Magpies','Blacktown Workers':'Blacktown Workers Sea Eagles'
 }
 
 def get(url):
@@ -31,8 +31,12 @@ def display_name(s):
  if ',' in s:
   last,first=s.split(',',1);return f'{first.strip().title()} {last.strip().title()}'.strip()
  parts=s.split();return ' '.join(p[:1].upper()+p[1:].lower() if not p.isupper() or len(p)<=2 else p.title() for p in parts)
-def team_name(slug):return TEAM_MAP.get(slug,slug.replace('-',' ').title())
-def opponent_name(s):return SHORT_TEAM.get(' '.join((s or '').split()),' '.join((s or '').split()))
+def team_name(slug):
+ base=re.sub(r'-(?:r|reserves?)$','',slug)
+ return TEAM_MAP.get(base,base.replace('-',' ').title())
+def opponent_name(s):
+ clean=re.sub(r'\s*\(R\)\s*','', ' '.join((s or '').split())).strip()
+ return SHORT_TEAM.get(clean,clean)
 
 class SeasonLinks(HTMLParser):
  def __init__(self,prefix):super().__init__();self.prefix=prefix;self.teams=set()
@@ -131,7 +135,6 @@ def build():
     loaded_teams+=1;appearances.extend(rows);players.update(ps);season_apps+=len(rows);season_players.update(r[0] for r in rows)
    coverage.append([competition,season,loaded_teams,len(season_players),season_apps])
    print(' loaded',loaded_teams,'teams',len(season_players),'players',season_apps,'appearances')
- # exact dedupe
  appearances=list({tuple(r):r for r in appearances}.values())
  used={r[0] for r in appearances};players=[players[p] for p in sorted(used,key=int) if p in players]
  payload={'version':26,'builtAt':int(datetime.now(timezone.utc).timestamp()*1000),'players':players,'appearances':appearances,'coverage':coverage}
