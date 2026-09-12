@@ -1,7 +1,9 @@
 {
-  "version": 26,
+  "version": 27,
   "players": 3100,
-  "rows": 139576,
-  "games": 197161,
-  "compressedBytes": 475914
+  "teamRows": 139576,
+  "teamGames": 197161,
+  "playerOpponentRows": 2581640,
+  "playerOpponentGames": 3284180,
+  "compressedBytes": 10603913
 }

@@ -31,7 +31,7 @@ async function ensureSeasonCatalogues(){
 
 function catalogueKeysForCompetition(comp){return[...state.seasonCatalogues.keys()].filter(k=>k.startsWith(`${comp}|`))}
 
-// v0.27: cleaner public UI without changing any player-history logic.
+// Cleaner public UI without changing player-history logic.
 window.addEventListener('DOMContentLoaded',()=>{
  const style=document.createElement('style');
  style.textContent=`
@@ -98,4 +98,12 @@ window.addEventListener('DOMContentLoaded',()=>{
  const brandSmall=document.querySelector('.topcopy small');
  if(brandSmall)brandSmall.textContent='LEAGUE LINKS';
  if(state.loaded)renderCompetitions();
+});
+
+// v0.27 loads after the deferred application scripts so it can safely extend the opponent view.
+window.addEventListener('DOMContentLoaded',()=>{
+ const s=document.createElement('script');
+ s.src='v27.js';
+ s.async=false;
+ document.body.appendChild(s);
 });
