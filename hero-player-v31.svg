@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 760" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract rugby player silhouette</title>
+  <desc id="desc">A stylised back-view rugby league player with stadium lights and geometric connection lines.</desc>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#132e39"/>
+      <stop offset="0.55" stop-color="#07161d"/>
+      <stop offset="1" stop-color="#02090d"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#55e5d3" stop-opacity="0.78"/>
+      <stop offset="1" stop-color="#efc46d" stop-opacity="0.18"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#6cf1df" stop-opacity="0.75"/>
+      <stop offset="0.25" stop-color="#57dfcf" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#57dfcf" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+
+  <g opacity="0.36">
+    <circle cx="570" cy="88" r="13" fill="#d8fff9"/>
+    <circle cx="614" cy="100" r="10" fill="#d8fff9"/>
+    <circle cx="654" cy="116" r="8" fill="#d8fff9"/>
+    <circle cx="700" cy="139" r="6" fill="#d8fff9"/>
+    <path d="M515 58c92 5 194 49 268 128" fill="none" stroke="#92d8d1" stroke-opacity=".28" stroke-width="2"/>
+  </g>
+
+  <g opacity="0.52">
+    <path d="M532 197 760 83" stroke="url(#edge)" stroke-width="2"/>
+    <path d="M534 197 820 320" stroke="#53d7c7" stroke-opacity=".24" stroke-width="2"/>
+    <circle cx="760" cy="83" r="7" fill="#62ead9"/>
+    <circle cx="820" cy="320" r="6" fill="#eec16b"/>
+    <circle cx="534" cy="197" r="10" fill="#55e5d3"/>
+  </g>
+
+  <ellipse cx="582" cy="345" rx="280" ry="260" fill="url(#glow)" filter="url(#blur)" opacity="0.3"/>
+
+  <g transform="translate(142 70)">
+    <path d="M330 66c57 0 103 45 103 101 0 36-18 67-47 85 86 20 153 74 191 156 32 70 51 153 61 251H65c10-98 29-181 61-251 38-82 105-136 191-156-29-18-47-49-47-85 0-56 46-101 103-101Z" fill="url(#body)"/>
+    <path d="M167 328c60-47 125-70 195-70 73 0 143 25 208 75" fill="none" stroke="#67e3d4" stroke-opacity=".16" stroke-width="4"/>
+    <path d="M267 117c19-12 41-18 66-18 33 0 59 9 81 29" fill="none" stroke="#95fff2" stroke-opacity=".22" stroke-width="3"/>
+    <path d="M83 513c71-49 158-74 261-74 111 0 205 30 282 91" fill="none" stroke="#68ddcf" stroke-opacity=".08" stroke-width="3"/>
+    <text x="348" y="392" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="118" font-weight="900" fill="#b8cfcc" fill-opacity=".13">13</text>
+    <text x="348" y="392" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="118" font-weight="900" fill="none" stroke="#cce5e1" stroke-opacity=".09" stroke-width="2">13</text>
+  </g>
+
+  <g opacity="0.42">
+    <path d="M72 628c206-72 447-89 734-49" fill="none" stroke="#6ce2d5" stroke-opacity=".22" stroke-width="2"/>
+    <path d="M32 666c250-46 522-45 816 4" fill="none" stroke="#eec06d" stroke-opacity=".1" stroke-width="2"/>
+  </g>
+</svg>
