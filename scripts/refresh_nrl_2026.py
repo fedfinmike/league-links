@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-import gzip, json, os
+import gzip
+import json
+import os
+import re
+import unicodedata
+import urllib.request
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from itertools import combinations
-
-import build_rlp_exact as rlp
 
 ROOT=os.path.abspath(os.path.join(os.path.dirname(__file__),'..'))
 GRAPH=os.path.join(ROOT,'data','league-links.json.gz')
@@ -13,79 +17,132 @@ OPP=os.path.join(ROOT,'data','opponents.json.gz')
 OPP_META=os.path.join(ROOT,'data','opponents-meta.json')
 SEASON=2026
 COMPETITION='NRL'
-RLP_PREFIX='nrl-2026'
+COMPETITION_ID=12999
+MC='https://mc.championdata.com/data'
 
-TEAM_CANDIDATES=[
- ('brisbane-broncos','Brisbane Broncos'),
- ('canberra-raiders','Canberra Raiders'),
- ('canterbury-bankstown-bulldogs','Canterbury-Bankstown Bulldogs'),
- ('cronulla-sutherland-sharks','Cronulla-Sutherland Sharks'),
- ('cronulla-sharks','Cronulla-Sutherland Sharks'),
- ('dolphins','Dolphins'),
- ('gold-coast-titans','Gold Coast Titans'),
- ('manly-warringah-sea-eagles','Manly Warringah Sea Eagles'),
- ('melbourne-storm','Melbourne Storm'),
- ('newcastle-knights','Newcastle Knights'),
- ('new-zealand-warriors','New Zealand Warriors'),
- ('north-queensland-cowboys','North Queensland Cowboys'),
- ('parramatta-eels','Parramatta Eels'),
- ('penrith-panthers','Penrith Panthers'),
- ('south-sydney-rabbitohs','South Sydney Rabbitohs'),
- ('st-george-illawarra-dragons','St George Illawarra Dragons'),
- ('sydney-roosters','Sydney Roosters'),
- ('wests-tigers','Wests Tigers'),
-]
-TEAM_NAMES={name for _,name in TEAM_CANDIDATES}
-OPPONENT_MAP={
- 'Brisbane':'Brisbane Broncos','Brisbane Tigers':'Brisbane Broncos',
- 'Canberra':'Canberra Raiders','Canberra Raiders':'Canberra Raiders',
- 'Canterbury':'Canterbury-Bankstown Bulldogs','Canterbury-Bankstown Bulldogs':'Canterbury-Bankstown Bulldogs',
- 'Cronulla':'Cronulla-Sutherland Sharks','Cronulla-Sutherland Sharks':'Cronulla-Sutherland Sharks',
- 'Dolphins':'Dolphins',
- 'Gold Coast':'Gold Coast Titans','Gold Coast Titans':'Gold Coast Titans',
- 'Manly':'Manly Warringah Sea Eagles','Manly Warringah Sea Eagles':'Manly Warringah Sea Eagles',
- 'Melbourne':'Melbourne Storm','Melbourne Storm':'Melbourne Storm',
- 'Newcastle':'Newcastle Knights','Newcastle Knights':'Newcastle Knights',
- 'Warriors':'New Zealand Warriors','New Zealand':'New Zealand Warriors','New Zealand Warriors':'New Zealand Warriors',
- 'North Qld':'North Queensland Cowboys','North Queensland':'North Queensland Cowboys','North Queensland Cowboys':'North Queensland Cowboys',
- 'Parramatta':'Parramatta Eels','Parramatta Eels':'Parramatta Eels',
- 'Penrith':'Penrith Panthers','Penrith Panthers':'Penrith Panthers',
- 'South Sydney':'South Sydney Rabbitohs','Souths':'South Sydney Rabbitohs','South Sydney Rabbitohs':'South Sydney Rabbitohs',
- 'St Geo Illa':'St George Illawarra Dragons','St George Illawarra':'St George Illawarra Dragons','St George Illawarra Dragons':'St George Illawarra Dragons',
- 'Sydney':'Sydney Roosters','Sydney Roosters':'Sydney Roosters',
- 'Wests':'Wests Tigers','Wests Tigers':'Wests Tigers',
+# Display names used throughout League Links.
+TEAM_NAME={
+ 321:'New Zealand Warriors',322:'Brisbane Broncos',323:'Canberra Raiders',324:'Melbourne Storm',
+ 325:'Newcastle Knights',326:'North Queensland Cowboys',328:'Parramatta Eels',329:'Penrith Panthers',
+ 330:'St George Illawarra Dragons',331:'Sydney Roosters',332:'Canterbury-Bankstown Bulldogs',
+ 333:'Cronulla-Sutherland Sharks',334:'Wests Tigers',335:'South Sydney Rabbitohs',
+ 336:'Manly Warringah Sea Eagles',337:'Gold Coast Titans',9538:'Dolphins'
 }
+
+# Known public-name variants already encountered in League Links source reconciliation.
+NAME_ALIASES={
+ 'sosefifita':'jojofifita',
+ 'selumielahalasima':'lekahalasima',
+ 'fetalaigapauga':'juniorpauga',
+ 'tolutaukoula':'tolutaukoula',
+ 'nicholastsougranis':'nicktsougranis',
+}
+
+IGNORE_ACTIVITY={'playerId','squadId','jumperNumber'}
+
+def get_json(url):
+ req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 LeagueLinks/0.27','Accept':'application/json, text/plain, */*'})
+ with urllib.request.urlopen(req,timeout=30) as r:
+  return json.loads(r.read().decode('utf-8','replace'))
+
+def norm_name(s):
+ s=unicodedata.normalize('NFKD',str(s or '')).encode('ascii','ignore').decode('ascii').lower()
+ s=re.sub(r'[^a-z0-9]+','',s)
+ return NAME_ALIASES.get(s,s)
 
 def pair_key(a,b):
  a,b=str(a),str(b)
  return f'{a}|{b}' if int(a)<int(b) else f'{b}|{a}'
 
-def canonical_opponent(raw):
- return OPPONENT_MAP.get((raw or '').strip(),(raw or '').strip())
+def full_name(x):
+ return ' '.join(v for v in [str(x.get('firstname') or '').strip(),str(x.get('surname') or '').strip()] if v).strip()
 
-def current_rows():
- canonical=rlp.nrl_names(); rows=[]; players={}; loaded=set()
- for slug,team in TEAM_CANDIDATES:
-  if team in loaded: continue
-  try:
-   html=rlp.get(f'{rlp.RLP}/{RLP_PREFIX}/{slug}/Round-1')
-   parsed,ps=rlp.parse_team_page(html,COMPETITION,SEASON,team,canonical)
-  except Exception as e:
-   print('NRL 2026 unavailable',team,slug,e); continue
-  clean=[]
-  for pid,mid,year,comp,t,opp in parsed:
-   opp=canonical_opponent(opp)
-   # Excludes Brisbane's World Club Challenge and any other non-NRL match embedded on a team page.
-   if opp and opp not in TEAM_NAMES: continue
-   clean.append([str(pid),mid,int(year),COMPETITION,team,opp])
-  if not clean: continue
-  loaded.add(team); rows.extend(clean); players.update(ps)
-  print('NRL 2026',team,len({r[1] for r in clean}),'matches',len(clean),'player appearances')
+def did_play(stat):
+ # Match Centre names up to 19 players per side. Starters have an on-field position.
+ # Bench/reserve players are all labelled Interchange, so a bench player counts only if the
+ # official match statistics record actual activity. This excludes unused 18th/19th men.
+ if str(stat.get('position') or '').strip().lower()!='interchange':
+  return True
+ for k,v in stat.items():
+  if k in IGNORE_ACTIVITY or k=='position':
+   continue
+  if isinstance(v,(int,float)) and v!=0:
+   return True
+ return False
+
+def load_base_graph():
+ with gzip.open(GRAPH,'rb') as f:return json.loads(f.read())
+
+def build_name_resolver(graph):
+ players={str(x['id']):x for x in graph.get('players',[])}
+ by_norm=defaultdict(list)
+ for pid,p in players.items():by_norm[norm_name(p.get('name'))].append(pid)
+ current_same=defaultdict(set);current_any=set()
+ for pid,y,c,t,g in graph.get('career',[]):
+  if int(y)==SEASON and c==COMPETITION and int(g)>0:
+   current_same[(str(pid),t)].add(int(g));current_any.add(str(pid))
+ used_synthetic={}
+ def resolve(name,champ_id,team):
+  key=norm_name(name);cands=by_norm.get(key,[])
+  if len(cands)==1:return cands[0]
+  if len(cands)>1:
+   same=[p for p in cands if (p,team) in current_same]
+   if len(same)==1:return same[0]
+   curr=[p for p in cands if p in current_any]
+   if len(curr)==1:return curr[0]
+   raise RuntimeError(f'Ambiguous current NRL identity: {name!r} -> {cands}')
+  # A post-snapshot debut may genuinely be absent from the historical graph. Keep a stable,
+  # non-colliding League Links ID based on the Match Centre ID instead of dropping the player.
+  sid=str(9_000_000_000_000+int(champ_id))
+  used_synthetic[sid]={'id':sid,'name':name,'birthday':''}
+  by_norm[key].append(sid)
+  return sid
+ return players,resolve,used_synthetic
+
+def fetch_current_rows(graph):
+ fixture=get_json(f'{MC}/{COMPETITION_ID}/fixture.json')
+ matches=(fixture.get('fixture') or {}).get('match') or []
+ completed=[m for m in matches if str(m.get('matchStatus','')).lower()=='complete']
+ if len(completed)<204 or max((int(m.get('roundNumber') or 0) for m in completed),default=0)<27:
+  raise RuntimeError(f'Official 2026 NRL feed is unexpectedly incomplete: {len(completed)} completed matches')
+ players,resolve,synthetic=build_name_resolver(graph)
+ rows=[];unmapped_teams=set();lock_rows=[]
+ def fetch_match(m):
+  mid=int(m['matchId']);d=get_json(f'{MC}/{COMPETITION_ID}/{mid}.json');ms=d.get('matchStats') or {}
+  info={int(x['playerId']):x for x in ((ms.get('playerInfo') or {}).get('player') or [])}
+  stats=(ms.get('playerStats') or {}).get('player') or []
+  home=int(m.get('homeSquadId') or 0);away=int(m.get('awaySquadId') or 0)
+  out=[]
+  for s in stats:
+   if not did_play(s):continue
+   squad=int(s.get('squadId') or 0);team=TEAM_NAME.get(squad)
+   if not team:
+    out.append(('__UNMAPPED__',squad,mid));continue
+   opponent_id=away if squad==home else home if squad==away else 0
+   opponent=TEAM_NAME.get(opponent_id,'')
+   x=info.get(int(s.get('playerId') or 0),{});name=full_name(x)
+   if not name:raise RuntimeError(f'Missing player name in official match {mid} for {s.get("playerId")}')
+   out.append((name,int(s.get('playerId')),str(mid),team,opponent))
+  return out
+ with ThreadPoolExecutor(max_workers=10) as ex:
+  futs={ex.submit(fetch_match,m):m for m in completed}
+  for fut in as_completed(futs):lock_rows.extend(fut.result())
+ for item in lock_rows:
+  if item[0]=='__UNMAPPED__':unmapped_teams.add(item[1]);continue
+  name,champ_id,mid,team,opponent=item
+  pid=resolve(name,champ_id,team)
+  rows.append([pid,mid,SEASON,COMPETITION,team,opponent])
+ if unmapped_teams:raise RuntimeError(f'Unmapped official NRL squad IDs: {sorted(unmapped_teams)}')
  rows=list({tuple(r):r for r in rows}.values())
- if len(loaded)<17:
-  missing=sorted(TEAM_NAMES-loaded)
-  raise RuntimeError(f'Only {len(loaded)} NRL teams loaded; missing {missing}')
- return rows,players
+ # Each completed match must resolve to two participating teams. Conservative participation
+ # filtering can produce 16 or 17 per side, but never a 19-player named squad.
+ groups=defaultdict(set)
+ for pid,mid,y,c,t,o in rows:groups[(mid,t)].add(pid)
+ bad=[(k,len(v)) for k,v in groups.items() if not (13<=len(v)<=17)]
+ if bad:raise RuntimeError(f'Unexpected participant counts in official feed: {bad[:10]}')
+ print('Official 2026 NRL:',len(completed),'completed matches',len(groups),'team-match groups',len(rows),'player appearances')
+ print('Synthetic late-debut identities:',len(synthetic))
+ return rows,players,synthetic,len(completed),max(int(m.get('roundNumber') or 0) for m in completed)
 
 def rebuild_edges(histories):
  agg={}
@@ -96,21 +153,17 @@ def rebuild_edges(histories):
   e['games']+=int(g);e['first']=min(e['first'],int(y));e['last']=max(e['last'],int(y));agg[pk]=e
  return list(agg.values())
 
-def refresh_graph(rows,new_players):
- with gzip.open(GRAPH,'rb') as f:p=json.loads(f.read())
- players={str(x['id']):x for x in p.get('players',[])}
- for pid,x in new_players.items():
-  players.setdefault(str(pid),{'id':str(pid),'name':x.get('name') or f'Player {pid}','birthday':''})
- apps=defaultdict(int,{str(k):int(v) for k,v in p.get('appearances',[])})
+def refresh_graph(graph,rows,players,synthetic,completed_matches,max_round):
+ players.update(synthetic)
+ apps=defaultdict(int,{str(k):int(v) for k,v in graph.get('appearances',[])})
  career=[]
- for pid,y,c,t,g in p.get('career',[]):
-  if int(y)==SEASON and c==COMPETITION:
-   apps[str(pid)]-=int(g)
-  else: career.append([str(pid),int(y),c,t,int(g)])
- rosters=[[c,int(y),t,str(pid),int(g)] for c,y,t,pid,g in p.get('rosters',[]) if not (int(y)==SEASON and c==COMPETITION)]
- histories=[[pk,int(y),c,t,int(g)] for pk,y,c,t,g in p.get('histories',[]) if not (int(y)==SEASON and c==COMPETITION)]
+ for pid,y,c,t,g in graph.get('career',[]):
+  if int(y)==SEASON and c==COMPETITION:apps[str(pid)]-=int(g)
+  else:career.append([str(pid),int(y),c,t,int(g)])
+ rosters=[[c,int(y),t,str(pid),int(g)] for c,y,t,pid,g in graph.get('rosters',[]) if not (int(y)==SEASON and c==COMPETITION)]
+ histories=[[pk,int(y),c,t,int(g)] for pk,y,c,t,g in graph.get('histories',[]) if not (int(y)==SEASON and c==COMPETITION)]
  groups=defaultdict(set)
- for pid,mid,y,c,t,opp in rows: groups[(mid,int(y),c,t)].add(str(pid))
+ for pid,mid,y,c,t,opp in rows:groups[(mid,int(y),c,t)].add(str(pid))
  career_counts=defaultdict(int,{(pid,y,c,t):g for pid,y,c,t,g in career})
  roster_counts=defaultdict(int,{(c,y,t,pid):g for c,y,t,pid,g in rosters})
  history_counts=defaultdict(int,{(pk,y,c,t):g for pk,y,c,t,g in histories})
@@ -118,44 +171,42 @@ def refresh_graph(rows,new_players):
   ids=sorted(ids,key=int)
   for pid in ids:
    apps[pid]+=1;career_counts[(pid,y,c,t)]+=1;roster_counts[(c,y,t,pid)]+=1
-  for a,b in combinations(ids,2): history_counts[(pair_key(a,b),y,c,t)]+=1
+  for a,b in combinations(ids,2):history_counts[(pair_key(a,b),y,c,t)]+=1
  apps={pid:n for pid,n in apps.items() if n>0}
  histories=[[pk,y,c,t,g] for (pk,y,c,t),g in history_counts.items()]
- p['career']=[[pid,y,c,t,g] for (pid,y,c,t),g in career_counts.items()]
- p['rosters']=[[c,y,t,pid,g] for (c,y,t,pid),g in roster_counts.items()]
- p['histories']=histories
- p['edges']=rebuild_edges(histories)
- p['appearances']=[[pid,n] for pid,n in apps.items()]
- p['players']=[players[pid] for pid in sorted(apps,key=int) if pid in players]
- p['builtAt']=int(datetime.now(timezone.utc).timestamp()*1000)
- comps=set(p.get('competitionsLoaded',[]));comps.add(COMPETITION);p['competitionsLoaded']=sorted(comps)
- raw=json.dumps(p,separators=(',',':'),ensure_ascii=False).encode()
+ graph['career']=[[pid,y,c,t,g] for (pid,y,c,t),g in career_counts.items()]
+ graph['rosters']=[[c,y,t,pid,g] for (c,y,t,pid),g in roster_counts.items()]
+ graph['histories']=histories;graph['edges']=rebuild_edges(histories);graph['appearances']=[[pid,n] for pid,n in apps.items()]
+ graph['players']=[players[pid] for pid in sorted(apps,key=int) if pid in players]
+ graph['builtAt']=int(datetime.now(timezone.utc).timestamp()*1000)
+ comps=set(graph.get('competitionsLoaded',[]));comps.add(COMPETITION);graph['competitionsLoaded']=sorted(comps)
+ raw=json.dumps(graph,separators=(',',':'),ensure_ascii=False).encode()
  with gzip.open(GRAPH,'wb',compresslevel=9) as f:f.write(raw)
  try:
   with open(GRAPH_META,encoding='utf-8') as f:meta=json.load(f)
  except Exception:meta={}
- meta.update({'builtAt':p['builtAt'],'players':len(p['players']),'links':len(p['edges']),'playerAppearances':sum(apps.values()),'compressedBytes':os.path.getsize(GRAPH),'currentNRLSource':'Rugby League Project match matrices','currentNRLSeason':SEASON,'currentNRLPlayerAppearances':len(rows),'currentNRLMatchTeamGroups':len(groups)})
+ meta.update({'builtAt':graph['builtAt'],'players':len(graph['players']),'links':len(graph['edges']),'playerAppearances':sum(apps.values()),'compressedBytes':os.path.getsize(GRAPH),'currentNRLSource':'NRL Match Centre / Champion Data','currentNRLCompetitionId':COMPETITION_ID,'currentNRLSeason':SEASON,'currentNRLCompletedMatches':completed_matches,'currentNRLMaxRound':max_round,'currentNRLPlayerAppearances':len(rows),'currentNRLMatchTeamGroups':len(groups)})
  with open(GRAPH_META,'w',encoding='utf-8') as f:json.dump(meta,f,indent=2)
 
-def refresh_opponents(rows):
+def refresh_opponents(rows,completed_matches,max_round):
  with gzip.open(OPP,'rb') as f:p=json.loads(f.read())
  counts=defaultdict(int)
  for pid,y,c,o,g in p.get('rows',[]):
-  if int(y)==SEASON and c==COMPETITION: continue
+  if int(y)==SEASON and c==COMPETITION:continue
   counts[(str(pid),int(y),c,o)]+=int(g)
  for pid,mid,y,c,t,o in rows:
-  if o: counts[(str(pid),int(y),c,o)]+=1
+  if o:counts[(str(pid),int(y),c,o)]+=1
  out=[[pid,y,c,o,g] for (pid,y,c,o),g in counts.items()]
  p={'version':26,'builtAt':int(datetime.now(timezone.utc).timestamp()*1000),'rows':out}
  raw=json.dumps(p,separators=(',',':'),ensure_ascii=False).encode()
  with gzip.open(OPP,'wb',compresslevel=9) as f:f.write(raw)
- meta={'version':26,'players':len({r[0] for r in out}),'rows':len(out),'games':sum(r[4] for r in out),'compressedBytes':os.path.getsize(OPP),'currentNRLSource':'Rugby League Project match matrices','currentNRLSeason':SEASON}
+ meta={'version':26,'players':len({r[0] for r in out}),'rows':len(out),'games':sum(r[4] for r in out),'compressedBytes':os.path.getsize(OPP),'currentNRLSource':'NRL Match Centre / Champion Data','currentNRLSeason':SEASON,'currentNRLCompletedMatches':completed_matches,'currentNRLMaxRound':max_round}
  with open(OPP_META,'w',encoding='utf-8') as f:json.dump(meta,f,indent=2)
 
 def main():
- rows,players=current_rows()
- print('Fresh NRL 2026:',len(players),'players',len(rows),'player appearances')
- refresh_graph(rows,players)
- refresh_opponents(rows)
+ graph=load_base_graph()
+ rows,players,synthetic,completed,max_round=fetch_current_rows(graph)
+ refresh_graph(graph,rows,players,synthetic,completed,max_round)
+ refresh_opponents(rows,completed,max_round)
 
 if __name__=='__main__':main()
