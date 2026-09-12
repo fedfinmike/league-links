@@ -1,13 +1,15 @@
 {
   "version": 26,
-  "builtAt": 1789175308224,
+  "builtAt": 1789175414000,
   "historyStart": 2000,
   "historyEnd": 2026,
-  "players": 2409,
-  "links": 92877,
-  "playerAppearances": 181766,
+  "players": 3100,
+  "links": 110643,
+  "playerAppearances": 197161,
   "competitions": [
     "NRL",
+    "NSW Cup",
+    "Queensland Cup",
     "State of Origin"
   ],
   "internationalTeams": 13,
@@ -15,45 +17,45 @@
     [
       "NSW Cup",
       2024,
-      0,
-      0,
-      0
+      1,
+      51,
+      406
     ],
     [
       "NSW Cup",
       2025,
-      0,
-      0,
-      0
+      2,
+      93,
+      812
     ],
     [
       "NSW Cup",
       2026,
-      0,
-      0,
-      0
+      2,
+      89,
+      725
     ],
     [
       "Queensland Cup",
       2024,
-      0,
-      0,
-      0
+      13,
+      447,
+      4658
     ],
     [
       "Queensland Cup",
       2025,
-      0,
-      0,
-      0
+      13,
+      437,
+      4623
     ],
     [
       "Queensland Cup",
       2026,
-      0,
-      0,
-      0
+      13,
+      421,
+      4171
     ]
   ],
-  "compressedBytes": 1490539
+  "compressedBytes": 1699877
 }
