@@ -38,13 +38,18 @@ def opponent_name(s):
  clean=re.sub(r'\s*\(R\)\s*','', ' '.join((s or '').split())).strip()
  return SHORT_TEAM.get(clean,clean)
 
-class SeasonLinks(HTMLParser):
- def __init__(self,prefix):super().__init__();self.prefix=prefix;self.teams=set()
- def handle_starttag(self,tag,attrs):
-  if tag!='a':return
-  href=dict(attrs).get('href','')
-  m=re.match(rf'^/seasons/{re.escape(self.prefix)}/([^/]+)/(?:summary\.html|Round-1)$',href)
-  if m:self.teams.add(m.group(1))
+def discover_teams(html,prefix):
+ found=set()
+ # Season-specific team links when present.
+ for m in re.finditer(rf'href=["\']/seasons/{re.escape(prefix)}/([^/"\']+)/',html,re.I):
+  slug=m.group(1).lower()
+  if not slug.startswith('round-') and slug not in {'players','coaches','referees','results','rounds','venues','data'}:found.add(slug)
+ # Player tables generally link Team(s) to the global team page.
+ for m in re.finditer(r'href=["\']/teams/([^/"\']+)/',html,re.I):
+  slug=m.group(1).lower()
+  base=re.sub(r'-(?:r|reserves?)$','',slug)
+  if base in TEAM_MAP:found.add(slug)
+ return sorted(found)
 
 class TableParser(HTMLParser):
  def __init__(self):super().__init__();self.tables=[];self.table=None;self.row=None;self.cell=None;self.link=None
@@ -124,7 +129,7 @@ def build():
    prefix=f'{slug}-{season}';url=f'{RLP}/{prefix}/players.html'
    try:html=get(url)
    except Exception as e:print('season unavailable',competition,season,e);continue
-   lp=SeasonLinks(prefix);lp.feed(html);teams=sorted(lp.teams)
+   teams=discover_teams(html,prefix)
    print(competition,season,'teams found',len(teams),teams)
    season_apps=0;season_players=set();loaded_teams=0
    for team_slug in teams:
