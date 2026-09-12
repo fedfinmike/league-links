@@ -13,7 +13,11 @@ for url in URLS:
   req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 LeagueLinks/0.27'})
   with urllib.request.urlopen(req,timeout=25) as r:
    html=r.read().decode('utf-8','replace')
-  print('\nURL',url,'status OK bytes',len(html),'match links',len(set(re.findall(r'/matches/(\\d+)',html))),'player links',len(set(re.findall(r'/players/(\\d+)',html))))
+  match_ids=re.findall(r'/matches/(\d+)',html)
+  player_ids=re.findall(r'/players/(\d+)',html)
+  hrefs=re.findall(r'href=["\']([^"\']+)["\']',html,re.I)
+  print('\nURL',url,'status OK bytes',len(html),'match links',len(set(match_ids)),'player links',len(set(player_ids)))
   print('title',re.search(r'<title>(.*?)</title>',html,re.I|re.S).group(1)[:160] if re.search(r'<title>(.*?)</title>',html,re.I|re.S) else 'none')
-  print('sample matches',re.findall(r'/matches/(\\d+)',html)[:6])
+  print('sample match hrefs',[x for x in hrefs if '/matches/' in x][:6])
+  print('sample player hrefs',[x for x in hrefs if '/players/' in x][:6])
  except Exception as e: print('\nURL',url,'ERROR',repr(e))
