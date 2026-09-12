@@ -1,6 +1,6 @@
 {
   "version": 26,
-  "builtAt": 1789183197537,
+  "builtAt": 1789183571564,
   "historyStart": 2000,
   "historyEnd": 2026,
   "players": 3100,
@@ -57,5 +57,5 @@
       4171
     ]
   ],
-  "compressedBytes": 1699878
+  "compressedBytes": 1699877
 }
