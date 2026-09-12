@@ -53,8 +53,25 @@ body{background:var(--bg)}
 .roster-static:hover{transform:none}
 .ad-slot{border-color:rgba(239,195,110,.12);background:linear-gradient(90deg,rgba(239,195,110,.035),rgba(75,213,195,.025))}
 .sitefoot{border-top-color:rgba(139,224,211,.08)}
+
+/* League Links brand system */
+.brandlogo{width:43px;height:43px;border-radius:13px;display:block;box-shadow:0 12px 30px rgba(75,213,195,.16)}
+.loaderlogo{width:70px;height:70px;border-radius:18px;display:block;margin:0 auto 14px;box-shadow:0 18px 42px rgba(75,213,195,.18)}
+.landingbrand{display:flex;align-items:center;gap:16px;margin:0 0 20px;color:var(--text)}
+.landingbrand img{width:72px;height:72px;border-radius:20px;display:block;box-shadow:0 18px 42px rgba(75,213,195,.17)}
+.landingbrand div{display:flex;flex-direction:column;min-width:0}
+.landingbrand span{font-size:10px;line-height:1.2;font-weight:900;letter-spacing:1.8px;color:#78a7a6;margin-bottom:5px}
+.landingbrand strong{font-size:clamp(36px,4.2vw,58px);line-height:.94;letter-spacing:-2.4px;color:#f8fcfb;text-shadow:0 1px 0 rgba(255,255,255,.03)}
+.hero .landingbrand + .pill{margin-bottom:18px}
+.hero .hero-statement{font-size:clamp(38px,4.4vw,62px);line-height:1;letter-spacing:-2.7px;max-width:720px}
+
 @media(max-width:760px){
   .hero{background:linear-gradient(160deg,#0d2730,#09202a 66%,#0d2932)}
   .bottomnav{background:rgba(6,22,29,.94);border-top-color:rgba(139,224,211,.11)}
   .bottomnav button.active{color:var(--aqua)}
+  .landingbrand{gap:12px;margin-bottom:17px}
+  .landingbrand img{width:58px;height:58px;border-radius:16px}
+  .landingbrand span{font-size:8px;letter-spacing:1.35px}
+  .landingbrand strong{font-size:38px;letter-spacing:-1.8px}
+  .hero .hero-statement{font-size:38px;letter-spacing:-1.7px}
 }
