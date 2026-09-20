@@ -1,11 +1,11 @@
 {
   "version": 28,
-  "builtAt": 1789820920073,
+  "builtAt": 1789909323311,
   "historyStart": 2000,
   "historyEnd": 2026,
   "players": 8340,
-  "links": 199318,
-  "playerAppearances": 224669,
+  "links": 199319,
+  "playerAppearances": 224720,
   "competitions": [
     "International",
     "NRL",
@@ -55,10 +55,10 @@
       2026,
       13,
       429,
-      4556
+      4607
     ]
   ],
-  "compressedBytes": 3359428,
+  "compressedBytes": 3359453,
   "internationalMatchesExact": 800,
   "internationalAppearancesExact": 27106,
   "internationalYears": [
