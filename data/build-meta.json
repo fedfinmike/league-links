@@ -1,6 +1,6 @@
 {
   "version": 28,
-  "builtAt": 1790256689920,
+  "builtAt": 1790343758111,
   "historyStart": 2000,
   "historyEnd": 2026,
   "players": 8353,
@@ -58,7 +58,7 @@
       4607
     ]
   ],
-  "compressedBytes": 3362008,
+  "compressedBytes": 3362007,
   "internationalMatchesExact": 801,
   "internationalAppearancesExact": 27140,
   "internationalYears": [
