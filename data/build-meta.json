@@ -1,10 +1,10 @@
 {
   "version": 28,
-  "builtAt": 1790613851262,
+  "builtAt": 1790693416976,
   "historyStart": 2000,
   "historyEnd": 2026,
-  "players": 8353,
-  "links": 199505,
+  "players": 8354,
+  "links": 199521,
   "playerAppearances": 224771,
   "competitions": [
     "International",
@@ -58,7 +58,7 @@
       4624
     ]
   ],
-  "compressedBytes": 3362006,
+  "compressedBytes": 3362107,
   "internationalMatchesExact": 801,
   "internationalAppearancesExact": 27140,
   "internationalYears": [
@@ -122,6 +122,6 @@
   "internationalParseGaps": 64,
   "internationalIdentity": {
     "canonical": 910,
-    "synthetic": 5240
+    "synthetic": 5241
   }
 }
