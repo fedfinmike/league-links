@@ -1,11 +1,11 @@
 {
   "version": 28,
-  "builtAt": 1791033630116,
+  "builtAt": 1791122078345,
   "historyStart": 2000,
   "historyEnd": 2026,
-  "players": 8356,
-  "links": 199557,
-  "playerAppearances": 224805,
+  "players": 8364,
+  "links": 199780,
+  "playerAppearances": 224839,
   "competitions": [
     "International",
     "NRL",
@@ -40,7 +40,7 @@
       "Queensland Cup",
       2024,
       13,
-      447,
+      446,
       4658
     ],
     [
@@ -58,9 +58,9 @@
       4624
     ]
   ],
-  "compressedBytes": 3364038,
-  "internationalMatchesExact": 802,
-  "internationalAppearancesExact": 27174,
+  "compressedBytes": 3367183,
+  "internationalMatchesExact": 803,
+  "internationalAppearancesExact": 27208,
   "internationalYears": [
     2000,
     2001,
@@ -117,11 +117,11 @@
     "2023": 39,
     "2024": 38,
     "2025": 32,
-    "2026": 5
+    "2026": 6
   },
   "internationalParseGaps": 64,
   "internationalIdentity": {
-    "canonical": 910,
-    "synthetic": 5242
+    "canonical": 926,
+    "synthetic": 5256
   }
 }
