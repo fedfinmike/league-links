@@ -1,6 +1,6 @@
 {
   "version": 28,
-  "players": 8383,
+  "players": 8382,
   "teamRows": 166091,
   "teamGames": 224909,
   "playerOpponentRows": 3034135,
@@ -17,5 +17,5 @@
       "groups": 1610
     }
   ],
-  "compressedBytes": 12780915
+  "compressedBytes": 12776608
 }
