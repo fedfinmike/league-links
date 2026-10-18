@@ -1,10 +1,10 @@
 {
   "version": 28,
-  "players": 8401,
-  "teamRows": 166183,
-  "teamGames": 224977,
-  "playerOpponentRows": 3035695,
-  "playerOpponentGames": 3753642,
+  "players": 8424,
+  "teamRows": 166285,
+  "teamGames": 225079,
+  "playerOpponentRows": 3037429,
+  "playerOpponentGames": 3755376,
   "mergedSources": [
     {
       "path": "lower-grade-exact.json",
@@ -13,9 +13,9 @@
     },
     {
       "path": "international-exact.json",
-      "appearances": 27343,
-      "groups": 1614
+      "appearances": 27445,
+      "groups": 1620
     }
   ],
-  "compressedBytes": 12784551
+  "compressedBytes": 12792398
 }
