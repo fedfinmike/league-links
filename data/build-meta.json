@@ -1,11 +1,11 @@
 {
   "version": 28,
-  "builtAt": 1792933880402,
+  "builtAt": 1793027345714,
   "historyStart": 2000,
   "historyEnd": 2026,
-  "players": 8453,
-  "links": 201259,
-  "playerAppearances": 225217,
+  "players": 8462,
+  "links": 201479,
+  "playerAppearances": 225285,
   "competitions": [
     "International",
     "NRL",
@@ -58,9 +58,9 @@
       4627
     ]
   ],
-  "compressedBytes": 3392743,
-  "internationalMatchesExact": 814,
-  "internationalAppearancesExact": 27583,
+  "compressedBytes": 3396869,
+  "internationalMatchesExact": 816,
+  "internationalAppearancesExact": 27651,
   "internationalYears": [
     2000,
     2001,
@@ -117,11 +117,11 @@
     "2023": 39,
     "2024": 38,
     "2025": 32,
-    "2026": 15
+    "2026": 17
   },
-  "internationalParseGaps": 62,
+  "internationalParseGaps": 60,
   "internationalIdentity": {
     "canonical": 911,
-    "synthetic": 5340
+    "synthetic": 5349
   }
 }
