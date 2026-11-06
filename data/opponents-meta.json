@@ -1,9 +1,9 @@
 {
   "version": 28,
   "players": 8487,
-  "teamRows": 167069,
+  "teamRows": 167065,
   "teamGames": 225863,
-  "playerOpponentRows": 3050791,
+  "playerOpponentRows": 3050779,
   "playerOpponentGames": 3768738,
   "mergedSources": [
     {
@@ -17,5 +17,5 @@
       "groups": 1666
     }
   ],
-  "compressedBytes": 12865547
+  "compressedBytes": 12862499
 }
